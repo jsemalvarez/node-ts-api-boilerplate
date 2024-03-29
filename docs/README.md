@@ -27,7 +27,15 @@ git checkout node-prisma-postgres
 - TypeScript
 - ESLint with some initial rules recommendation
 - Prettier to enforce consistent code style
-- NPM scripts for common operations
+- NPM [scripts](#available-scripts) for common operations
 - Express 
 - Jest for fast unit testing and code coverage
 - Swagger for document the endpoints
+
+### Available Scripts
+
+- `dev` - interactive watch mode to automatically transpile source files
+- `test` - interactive watch mode to automatically re-run tests
+- `test:coverage` - run tests and show coverage
+- `build` - transpile TypeScript to ES6
+- `start` - run app for production
