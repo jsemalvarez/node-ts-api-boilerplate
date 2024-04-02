@@ -1,7 +1,8 @@
 # node-ts-api-boilerplate
+
 A boilerplate for kickstart your nodejs api project
 
-For each branch, you can find a base project with node and ts such as:  
+For each branch, you can find a base project with node and ts such as:
 
 - node | mongoose | mongo << in progres >>
 
@@ -21,20 +22,21 @@ git checkout node-sequelize-mariadb
 git checkout node-prisma-postgres
 ```
 
-
-## All basic tools included and configured:
+## Basic tools included and configured:
 
 - TypeScript
 - ESLint with some initial rules recommendation
 - Prettier to enforce consistent code style
 - NPM [scripts](#available-scripts) for common operations
-- Express 
+- Express
 - Jest for fast unit testing and code coverage
 - Swagger for document the endpoints
 
 ### Available Scripts
 
 - `dev` - interactive watch mode to automatically transpile source files
+- `lint` - run ESLint
+- `format` - run prettier
 - `test` - interactive watch mode to automatically re-run tests
 - `test:coverage` - run tests and show coverage
 - `build` - transpile TypeScript to ES6
