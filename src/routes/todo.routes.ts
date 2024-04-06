@@ -1,25 +1,16 @@
-import { Response, Router } from 'express';
+import { Router } from 'express';
+import * as todoControllers from '../controllers/todo.controllers';
 
 const router = Router();
 
-router.post('/', (_req, res: Response) => {
-  res.json({ message: 'endpoint create todo' });
-});
+router.post('/', todoControllers.create);
 
-router.get('/', (_req, res: Response) => {
-  res.json({ message: 'endpoint get-all todos' });
-});
+router.get('/', todoControllers.findAll);
 
-router.get('/:todoId', (_req, res: Response) => {
-  res.json({ message: 'endpoit get-todo by id' });
-});
+router.get('/:todoId', todoControllers.findOne);
 
-router.patch('/:todoId', (_req, res: Response) => {
-  res.json({ message: 'endpoit update-todo by id' });
-});
+router.patch('/:todoId', todoControllers.update);
 
-router.delete('/:todoId', (_req, res: Response) => {
-  res.json({ message: 'endpoit delete-todo by id' });
-});
+router.delete('/:todoId', todoControllers.remove);
 
 export default router;
