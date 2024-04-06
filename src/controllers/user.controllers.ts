@@ -1,32 +1,43 @@
 import { Request, Response } from 'express';
+import * as userBusinessProcess from '../businessPorcess/user.businessPorcess';
+import { UserI } from '../interfaces';
 
 export const register = (req: Request, res: Response) => {
-  const newUser = req.body;
-  res.json({ message: 'endpoint register', user: newUser });
+  const newUser: UserI.UserCreationData = req.body;
+
+  const userCreated = userBusinessProcess.register(newUser);
+
+  res.json({ user: userCreated });
 };
 
 export const findAll = (_req: Request, res: Response) => {
-  res.json({ message: 'endpoint find-all users' });
+  const users: UserI.User[] = userBusinessProcess.findAll();
+  res.json({ users });
 };
 
 export const findOne = (req: Request, res: Response) => {
   const userId = req.params.userId;
-  res.json({ message: `endpoint get user by id: ${userId}` });
+  const user = userBusinessProcess.findOne(userId);
+  res.json({ user });
 };
 
 export const update = (req: Request, res: Response) => {
-  const userId = req.params.userId;
-  res.json({ message: `endpoint update user by id: ${userId}` });
+  const userId: string = req.params.userId;
+  const userData: UserI.UserUpdateData = req.body;
+  const user = userBusinessProcess.update(userId, userData);
+  res.json({ user });
 };
 
 export const remove = (req: Request, res: Response) => {
   const userId = req.params.userId;
-  res.json({ message: `endpoint remove user by id: ${userId}` });
+  const userIdRemoved = userBusinessProcess.remove(userId);
+  res.json({ message: `user ${userIdRemoved} removed successfully` });
 };
 
 export const login = (req: Request, res: Response) => {
-  const userlogin = req.body;
-  res.json({ message: `endpoint endpoint login`, user: userlogin });
+  const userCredentials: UserI.UserCredentialsData = req.body;
+  const userLogged = userBusinessProcess.login(userCredentials);
+  res.json({ userLogged });
 };
 
 export const refreshToken = (req: Request, res: Response) => {
