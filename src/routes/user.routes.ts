@@ -16,11 +16,11 @@ router.delete('/:userId', userContrller.remove);
 
 router.post('/login', userContrller.login);
 
-router.post('/refresh-tokens', userContrller.refreshTokens);
+router.post('/refresh-token', userContrller.refreshToken);
 
-router.post('/forgot-tokens', userContrller.forgotTokens);
+router.post('/forgot-password', userContrller.forgotPassword);
 
-router.post('/reset-tokens', userContrller.resetTokens);
+router.post('/reset-password', userContrller.resetPassword);
 
 router.post('/send-verifiaction-email', userContrller.sendVerifiactionEmail);
 
