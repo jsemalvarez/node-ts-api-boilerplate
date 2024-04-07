@@ -2,12 +2,17 @@ import { Request, Response } from 'express';
 import { userBusinessProcess } from '../businessPorcess';
 import { UserI } from '../interfaces';
 
-export const register = (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response) => {
   const newUser: UserI.UserCreationData = req.body;
 
-  const userCreated = userBusinessProcess.register(newUser);
-
-  res.json({ user: userCreated });
+  userBusinessProcess
+    .register(newUser)
+    .then((userCreated) => {
+      res.json({ user: userCreated });
+    })
+    .catch((error) => {
+      res.json({ message: error.message });
+    });
 };
 
 export const findAll = (_req: Request, res: Response) => {

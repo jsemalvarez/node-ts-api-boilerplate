@@ -1,15 +1,19 @@
 import { UserI } from '../interfaces';
 import { userService } from '../services';
-import { hashingAdapter } from '../utils';
+import { hashingAdapter, tokenAdapter } from '../utils';
 
-export const register = (userCreationData: UserI.UserCreationData): UserI.UserCreatedData => {
+export const register = async (userCreationData: UserI.UserCreationData): Promise<UserI.UserCreatedData> => {
   const passwordHashed = hashingAdapter.hash(userCreationData.password);
 
   userCreationData.password = passwordHashed;
 
   const userCreated = userService.register(userCreationData);
 
-  const token = '';
+  const token = await tokenAdapter.generateToken({ id: userCreated.id });
+
+  if (!token) {
+    throw new Error('we can not generate token');
+  }
 
   const user = {
     ...userCreated,
