@@ -1,25 +1,30 @@
 import { UserI } from '../interfaces';
+import { userService } from '../services';
 
-export const register = (newUser: UserI.UserCreationData): UserI.UserCreatedData => {
-  // eslint-disable-next-line
-  const { password, ...restUserData } = newUser;
+export const register = (userCreationData: UserI.UserCreationData): UserI.UserCreatedData => {
+  const passwordHashed = userCreationData.password;
 
-  const userCreated: UserI.UserCreatedData = {
-    ...restUserData,
-    id: 'id',
-    token: 'token',
+  userCreationData.password = passwordHashed;
+
+  const userCreated = userService.register(userCreationData);
+
+  const token = '';
+
+  const user = {
+    ...userCreated,
+    token,
   };
-  return userCreated;
+
+  return user;
 };
 
 export const findAll = (): UserI.User[] => {
-  const users: UserI.User[] = [];
+  const users = userService.findAll();
   return users;
 };
 
-// eslint-disable-next-line
 export const findOne = (userId: string): UserI.UserCreatedData => {
-  const user: UserI.UserCreatedData = {} as UserI.UserCreatedData;
+  const user = userService.findOne(userId);
 
   if (!user) {
     throw new Error('User not found');
@@ -42,23 +47,20 @@ export const update = (userId: string, updateUserData: UserI.UserUpdateData): Us
     ...restUpdateUserData,
     id: userId,
   };
+
+  userService.update(userId, userUpdated);
   return userUpdated;
 };
 
 export const remove = (userId: string) => {
   const user = findOne(userId);
-  return `user ${user.id} removed successfully`;
+  const userIdRemoved = userService.remove(user.id);
+  return `user ${userIdRemoved} removed successfully`;
 };
 
 export const login = (userCredentialsData: UserI.UserCredentialsData): UserI.UserCreatedData => {
-  const user: UserI.UserCreatedData = {
-    token: '',
-    id: '',
-    name: '',
-    email: userCredentialsData.email,
-    emailValidated: false,
-    role: [],
-  };
+  const user = userService.login(userCredentialsData);
+
   return user;
 };
 
