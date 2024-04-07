@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as userBusinessProcess from '../businessPorcess/user.businessPorcess';
+import { userBusinessProcess } from '../businessPorcess';
 import { UserI } from '../interfaces';
 
 export const register = (req: Request, res: Response) => {
