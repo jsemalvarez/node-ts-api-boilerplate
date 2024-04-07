@@ -1,8 +1,9 @@
 import { UserI } from '../interfaces';
 import { userService } from '../services';
+import { hashingAdapter } from '../utils';
 
 export const register = (userCreationData: UserI.UserCreationData): UserI.UserCreatedData => {
-  const passwordHashed = userCreationData.password;
+  const passwordHashed = hashingAdapter.hash(userCreationData.password);
 
   userCreationData.password = passwordHashed;
 
