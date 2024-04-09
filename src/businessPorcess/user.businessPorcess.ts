@@ -1,6 +1,7 @@
 import { UserI } from '../interfaces';
 import { userService } from '../services';
 import { hashingAdapter, tokenAdapter } from '../utils';
+import { customError } from '../utils/custom.error';
 
 export const register = async (userCreationData: UserI.UserCreationData): Promise<UserI.UserCreatedData> => {
   const passwordHashed = hashingAdapter.hash(userCreationData.password);
@@ -12,7 +13,7 @@ export const register = async (userCreationData: UserI.UserCreationData): Promis
   const token = await tokenAdapter.generateToken({ id: userCreated.id });
 
   if (!token) {
-    throw new Error('we can not generate token');
+    throw customError('Error while creating JWT', 500);
   }
 
   const user = {

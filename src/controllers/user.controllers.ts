@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { userBusinessProcess } from '../businessPorcess';
 import { UserI } from '../interfaces';
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response, next: NextFunction) => {
   const newUser: UserI.UserCreationData = req.body;
 
   userBusinessProcess
@@ -10,8 +10,9 @@ export const register = async (req: Request, res: Response) => {
     .then((userCreated) => {
       res.json({ user: userCreated });
     })
-    .catch((error) => {
-      res.json({ message: error.message });
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
     });
 };
 
