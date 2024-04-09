@@ -1,4 +1,5 @@
 import { UserI } from '../interfaces';
+import { regularExps } from '../utils/regular-exp';
 
 export const register = (userCreationData: UserI.UserCreationData): UserI.User => {
   const userCreated = {
@@ -13,10 +14,19 @@ export const findAll = (): UserI.User[] => {
   return users;
 };
 
-export const findOne = (userId: string): UserI.UserCreatedData => {
+export const findOne = (term: string): UserI.UserCreatedData => {
+  if (regularExps.email.test(term)) {
+    console.log(' es un email ');
+  }
+
+  //TODO: validar el id dependiendo el tipo
+  if (typeof term === 'string') {
+    console.log(' es un email ');
+  }
+
   const user: UserI.UserCreatedData = {
     token: '',
-    id: userId,
+    id: term,
     name: '',
     email: '',
     emailValidated: false,
