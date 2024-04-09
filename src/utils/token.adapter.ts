@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import { envs } from '../config/envs';
 
-const JWT_SEED = 'JWT_SEED';
+const JWT_SEED = envs.JWT_SEED;
 
 // eslint-disable-next-line
 export const generateToken = (payload: any, duration: string = '5h'): Promise<string | null> => {
