@@ -4,6 +4,10 @@ import { hashingAdapter, tokenAdapter } from '../utils';
 import { customError } from '../utils/custom.error';
 
 export const register = async (userCreationData: UserI.UserCreationData): Promise<UserI.UserCreatedData> => {
+  const userSaved = userService.findOne(userCreationData.email);
+  if (userSaved) {
+    throw customError('user already exist', 400);
+  }
   const passwordHashed = hashingAdapter.hash(userCreationData.password);
 
   userCreationData.password = passwordHashed;
