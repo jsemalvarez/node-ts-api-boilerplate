@@ -4,7 +4,7 @@ export interface User {
   email: string;
   emailValidated: boolean;
   password: string;
-  role: string[];
+  role: UserRole[];
 }
 
 export interface UserCreationData extends Omit<User, 'id'> {}
@@ -17,3 +17,8 @@ export interface UserUpdateData extends Partial<User> {}
 export interface UserUpdatedData extends Omit<User, 'password'> {}
 
 export interface UserCredentialsData extends Pick<User, 'email' | 'password'> {}
+
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}

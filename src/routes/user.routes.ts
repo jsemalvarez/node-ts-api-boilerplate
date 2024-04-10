@@ -1,14 +1,15 @@
 import { Router } from 'express';
 
 import * as userContrller from '../controllers/user.controllers';
-import { validateDataMiddleware, validateTokenMiddleware } from '../middlewares';
+import { validateDataMiddleware, validateTokenMiddleware, validateRoleMiddleware } from '../middlewares';
 import { updateUser } from '../middlewares/validations/user.validations';
+import { UserRole } from '../interfaces/user.interface';
 
 const router = Router();
 
 router.post('/register', userContrller.register);
 
-router.get('/', [validateTokenMiddleware], userContrller.findAll);
+router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userContrller.findAll);
 
 router.get('/:userId', userContrller.findOne);
 
