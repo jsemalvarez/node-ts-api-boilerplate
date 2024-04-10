@@ -1,10 +1,12 @@
 import { Router } from 'express';
 
 import * as userContrller from '../controllers/user.controllers';
+import { validateMiddleware } from '../middlewares/validate.midleware';
+import { updateUser } from '../middlewares/validations/user.validations';
 
 const router = Router();
 
-router.post('/register', userContrller.register);
+router.post('/register', validateMiddleware(updateUser), userContrller.register);
 
 router.get('/', userContrller.findAll);
 
