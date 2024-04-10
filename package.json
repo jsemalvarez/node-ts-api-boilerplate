@@ -8,6 +8,8 @@
   },
   "scripts": {
     "dev": "tsnd --respawn --clear src/app.ts",
+    "lint": "eslint .",
+    "format": "prettier --write .",
     "test": "jest --watch",
     "test:coverage": "jest --coverage",
     "build": "rimraf ./dist && tsc",
@@ -16,9 +18,25 @@
   "author": "jose maria alvarez",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.30",
+    "@typescript-eslint/eslint-plugin": "^7.5.0",
+    "@typescript-eslint/parser": "^7.5.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "3.2.5",
     "rimraf": "^5.0.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "env-var": "^7.4.1",
+    "express": "^4.19.2",
+    "joi": "^17.12.3",
+    "jsonwebtoken": "^9.0.2"
   }
 }

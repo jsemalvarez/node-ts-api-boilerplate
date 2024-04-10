@@ -1,3 +1,8 @@
+import { envs } from './config/envs';
+import app from './server';
 
+const PORT = envs.PORT;
 
-console.log('Hola Mundo :)');
+app.listen(PORT, () => {
+  console.log(`App running on port ${PORT}`);
+});
