@@ -9,7 +9,7 @@ export interface ValidateEschemaI {
 type ValidKeysI = 'body' | 'params' | 'query';
 const validKeys: string[] = ['body', 'params', 'query'];
 
-export const validateMiddleware = (schema: ValidateEschemaI) => {
+export const validateDataMiddleware = (schema: ValidateEschemaI) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const errorMessages: string[] = [];
 

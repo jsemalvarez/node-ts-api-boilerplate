@@ -1,18 +1,18 @@
 import { Router } from 'express';
 
 import * as userContrller from '../controllers/user.controllers';
-import { validateMiddleware } from '../middlewares/validate.midleware';
+import { validateDataMiddleware, validateTokenMiddleware } from '../middlewares';
 import { updateUser } from '../middlewares/validations/user.validations';
 
 const router = Router();
 
-router.post('/register', validateMiddleware(updateUser), userContrller.register);
+router.post('/register', userContrller.register);
 
-router.get('/', userContrller.findAll);
+router.get('/', [validateTokenMiddleware], userContrller.findAll);
 
 router.get('/:userId', userContrller.findOne);
 
-router.patch('/:userId', userContrller.update);
+router.patch('/:userId', [validateDataMiddleware(updateUser)], userContrller.update);
 
 router.delete('/:userId', userContrller.remove);
 
