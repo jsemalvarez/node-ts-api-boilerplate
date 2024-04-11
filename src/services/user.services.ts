@@ -50,7 +50,8 @@ export const update = (userId: string, updateUserData: UserI.UserUpdateData): bo
   return true;
 };
 
-export const remove = (userId: string): string => {
+export const remove = async (userId: string) => {
+  await UserModel.deleteOne({ _id: userId });
   return userId;
 };
 

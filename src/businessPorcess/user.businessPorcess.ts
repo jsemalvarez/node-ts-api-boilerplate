@@ -63,8 +63,8 @@ export const update = async (userId: string, updateUserData: UserI.UserUpdateDat
 
 export const remove = async (userId: string) => {
   const user = await findOne(userId);
-  const userIdRemoved = userService.remove(user.id);
-  return `user ${userIdRemoved} removed successfully`;
+  await userService.remove(user.id);
+  return user.id;
 };
 
 export const login = (userCredentialsData: UserI.UserCredentialsData): UserI.UserCreatedData => {

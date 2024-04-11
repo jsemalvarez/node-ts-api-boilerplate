@@ -15,7 +15,7 @@ router.get('/:userId', [validateTokenMiddleware, validateRoleMiddleware(UserRole
 
 router.patch('/:userId', [validateDataMiddleware(updateUser)], userContrller.update);
 
-router.delete('/:userId', userContrller.remove);
+router.delete('/:userId', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userContrller.remove);
 
 router.post('/login', userContrller.login);
 

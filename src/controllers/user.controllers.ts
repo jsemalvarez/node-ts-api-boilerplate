@@ -49,10 +49,18 @@ export const update = (req: Request, res: Response) => {
   res.json({ user });
 };
 
-export const remove = (req: Request, res: Response) => {
+export const remove = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;
-  const userIdRemoved = userBusinessProcess.remove(userId);
-  res.json({ message: `user ${userIdRemoved} removed successfully` });
+
+  userBusinessProcess
+    .remove(userId)
+    .then((userIdRemoved) => {
+      res.json({ message: `user ${userIdRemoved} removed successfully` });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const login = (req: Request, res: Response) => {
