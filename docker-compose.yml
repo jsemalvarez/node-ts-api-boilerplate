@@ -1,0 +1,10 @@
+version: '3.0'
+
+services:
+  mongo-db:
+    image: mongo:6.0.6
+    restart: always
+    volumes:
+      - ./mongo:/data/db
+    ports:
+      - 27017:27017

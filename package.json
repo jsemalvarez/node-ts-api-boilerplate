@@ -37,6 +37,7 @@
     "env-var": "^7.4.1",
     "express": "^4.19.2",
     "joi": "^17.12.3",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.1"
   }
 }
