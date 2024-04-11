@@ -1,3 +1,4 @@
+import { isObjectIdOrHexString } from 'mongoose';
 import { UserModel } from '../data/mongo';
 import { UserI } from '../interfaces';
 import { regularExps } from '../utils/regular-exp';
@@ -26,8 +27,7 @@ export const findOne = async (term: string) => {
     user = await UserModel.findOne({ email: term });
   }
 
-  //TODO: validar el id dependiendo el tipo
-  if (typeof term === 'string') {
+  if (isObjectIdOrHexString(term)) {
     user = await UserModel.findById(term);
   }
 

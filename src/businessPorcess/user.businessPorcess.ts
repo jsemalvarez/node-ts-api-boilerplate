@@ -34,8 +34,8 @@ export const findAll = async () => {
   return users;
 };
 
-export const findOne = async (userId: string) => {
-  const user = await userService.findOne(userId);
+export const findOne = async (term: string) => {
+  const user = await userService.findOne(term);
 
   if (!user) {
     throw new Error('User not found');
