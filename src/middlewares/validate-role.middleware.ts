@@ -15,7 +15,7 @@ export const validateRoleMiddleware = (requiredRole: UserI.UserRole) => {
     }
     const userRole = user.role || [];
 
-    if (userRole.includes(requiredRole)) {
+    if (!userRole.includes(requiredRole)) {
       return res.status(403).json({ error: 'Acceso no autorizado' });
     }
 

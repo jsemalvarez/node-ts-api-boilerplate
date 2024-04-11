@@ -16,9 +16,16 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     });
 };
 
-export const findAll = (_req: Request, res: Response) => {
-  const users: UserI.User[] = userBusinessProcess.findAll();
-  res.json({ users });
+export const findAll = (_req: Request, res: Response, next: NextFunction) => {
+  userBusinessProcess
+    .findAll()
+    .then((users) => {
+      res.json({ users });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const findOne = (req: Request, res: Response) => {

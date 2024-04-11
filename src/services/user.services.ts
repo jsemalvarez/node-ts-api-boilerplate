@@ -15,19 +15,31 @@ export const register = async (userCreationData: UserI.UserCreationData) => {
   return userCreated.toObject();
 };
 
-export const findAll = (): UserI.User[] => {
-  const users: UserI.User[] = [];
+export const findAll = async () => {
+  const users = await UserModel.find();
   return users;
 };
 
 export const findOne = async (term: string) => {
+  let user = null;
   if (regularExps.email.test(term)) {
-    return await UserModel.findOne({ email: term });
+    user = await UserModel.findOne({ email: term });
   }
 
   //TODO: validar el id dependiendo el tipo
   if (typeof term === 'string') {
-    return await UserModel.findById(term);
+    user = await UserModel.findById(term);
+  }
+
+  if (user) {
+    return {
+      id: user._id + '',
+      name: user.name,
+      email: user.email,
+      emailValidated: user.emailValidated,
+      password: user.password,
+      role: user.role as UserI.UserRole[],
+    };
   }
 
   return false;

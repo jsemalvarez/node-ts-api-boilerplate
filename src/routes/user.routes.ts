@@ -9,7 +9,7 @@ const router = Router();
 
 router.post('/register', userContrller.register);
 
-router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userContrller.findAll);
+router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userContrller.findAll);
 
 router.get('/:userId', userContrller.findOne);
 

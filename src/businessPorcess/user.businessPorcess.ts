@@ -29,8 +29,8 @@ export const register = async (userCreationData: UserI.UserCreationData) => {
   return user;
 };
 
-export const findAll = (): UserI.User[] => {
-  const users = userService.findAll();
+export const findAll = async () => {
+  const users = await userService.findAll();
   return users;
 };
 
