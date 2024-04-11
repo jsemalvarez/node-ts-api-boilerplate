@@ -1,12 +1,18 @@
+import { UserModel } from '../data/mongo';
 import { UserI } from '../interfaces';
 import { regularExps } from '../utils/regular-exp';
 
-export const register = (userCreationData: UserI.UserCreationData): UserI.User => {
-  const userCreated = {
-    id: '',
-    ...userCreationData,
-  };
-  return userCreated;
+export const register = async (userCreationData: UserI.UserCreationData) => {
+  const { name, email, password } = userCreationData;
+  const userCreated = await UserModel.create({
+    name,
+    email,
+    password,
+  });
+
+  // await userCreated.save();
+
+  return userCreated.toObject();
 };
 
 export const findAll = (): UserI.User[] => {
@@ -14,25 +20,17 @@ export const findAll = (): UserI.User[] => {
   return users;
 };
 
-export const findOne = (term: string): UserI.UserCreatedData => {
+export const findOne = async (term: string) => {
   if (regularExps.email.test(term)) {
-    console.log(' es un email ');
+    return await UserModel.findOne({ email: term });
   }
 
   //TODO: validar el id dependiendo el tipo
   if (typeof term === 'string') {
-    console.log(' es un email ');
+    return await UserModel.findById(term);
   }
 
-  const user: UserI.UserCreatedData = {
-    token: '',
-    id: term,
-    name: '',
-    email: '',
-    emailValidated: false,
-    role: [],
-  };
-  return user;
+  return false;
 };
 
 // eslint-disable-next-line

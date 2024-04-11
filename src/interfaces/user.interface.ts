@@ -14,7 +14,7 @@ export interface UserCreatedData extends Omit<User, 'password'> {
 }
 
 export interface UserUpdateData extends Partial<User> {}
-export interface UserUpdatedData extends Omit<User, 'password'> {}
+export interface UserUpdatedData extends Omit<User, 'id' | 'password'> {}
 
 export interface UserCredentialsData extends Pick<User, 'email' | 'password'> {}
 

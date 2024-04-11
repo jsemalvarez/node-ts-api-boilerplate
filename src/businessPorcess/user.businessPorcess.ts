@@ -3,18 +3,19 @@ import { userService } from '../services';
 import { hashingAdapter, tokenAdapter } from '../utils';
 import { customError } from '../utils/custom.error';
 
-export const register = async (userCreationData: UserI.UserCreationData): Promise<UserI.UserCreatedData> => {
-  const userSaved = userService.findOne(userCreationData.email);
+export const register = async (userCreationData: UserI.UserCreationData) => {
+  const userSaved = await userService.findOne(userCreationData.email);
   if (userSaved) {
     throw customError('user already exist', 400);
   }
+
   const passwordHashed = hashingAdapter.hash(userCreationData.password);
 
   userCreationData.password = passwordHashed;
 
-  const userCreated = userService.register(userCreationData);
+  const userCreated = await userService.register(userCreationData);
 
-  const token = await tokenAdapter.generateToken({ id: userCreated.id });
+  const token = await tokenAdapter.generateToken({ id: userCreated._id });
 
   if (!token) {
     throw customError('Error while creating JWT', 500);
@@ -33,8 +34,8 @@ export const findAll = (): UserI.User[] => {
   return users;
 };
 
-export const findOne = (userId: string): UserI.UserCreatedData => {
-  const user = userService.findOne(userId);
+export const findOne = async (userId: string) => {
+  const user = await userService.findOne(userId);
 
   if (!user) {
     throw new Error('User not found');
@@ -43,8 +44,8 @@ export const findOne = (userId: string): UserI.UserCreatedData => {
   return user;
 };
 
-export const update = (userId: string, updateUserData: UserI.UserUpdateData): UserI.UserUpdatedData => {
-  const user = findOne(userId);
+export const update = async (userId: string, updateUserData: UserI.UserUpdateData) => {
+  await findOne(userId);
 
   const { password, ...restUpdateUserData } = updateUserData;
 
@@ -52,18 +53,16 @@ export const update = (userId: string, updateUserData: UserI.UserUpdateData): Us
     throw new Error('password must not be update in this endpoint');
   }
 
-  const userUpdated: UserI.UserUpdatedData = {
-    ...user,
+  const userUpdated: UserI.UserUpdateData = {
     ...restUpdateUserData,
-    id: userId,
   };
 
   userService.update(userId, userUpdated);
   return userUpdated;
 };
 
-export const remove = (userId: string) => {
-  const user = findOne(userId);
+export const remove = async (userId: string) => {
+  const user = await findOne(userId);
   const userIdRemoved = userService.remove(user.id);
   return `user ${userIdRemoved} removed successfully`;
 };
