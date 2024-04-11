@@ -11,7 +11,7 @@ router.post('/register', userContrller.register);
 
 router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userContrller.findAll);
 
-router.get('/:userId', userContrller.findOne);
+router.get('/:userId', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userContrller.findOne);
 
 router.patch('/:userId', [validateDataMiddleware(updateUser)], userContrller.update);
 

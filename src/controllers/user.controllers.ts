@@ -28,10 +28,18 @@ export const findAll = (_req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-export const findOne = (req: Request, res: Response) => {
+export const findOne = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;
-  const user = userBusinessProcess.findOne(userId);
-  res.json({ user });
+
+  userBusinessProcess
+    .findOne(userId)
+    .then((user) => {
+      res.json({ user });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const update = (req: Request, res: Response) => {
