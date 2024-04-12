@@ -13,7 +13,9 @@
     "test": "jest --watch",
     "test:coverage": "jest --coverage",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/app.js"
+    "start": "npm run build && node dist/app.js",
+    "docker-dev":"docker-compose -p task-containers-stage up -d",
+    "docker-prod":"docker-compose -f docker-compose.dev.yml -p task-containers up -d"
   },
   "author": "jose maria alvarez",
   "license": "ISC",
