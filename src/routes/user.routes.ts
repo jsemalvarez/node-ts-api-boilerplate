@@ -13,7 +13,7 @@ router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)
 
 router.get('/:userId', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userContrller.findOne);
 
-router.patch('/:userId', [validateDataMiddleware(updateUser)], userContrller.update);
+router.patch('/:userId', [validateDataMiddleware(updateUser), validateTokenMiddleware], userContrller.update);
 
 router.delete('/:userId', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userContrller.remove);
 

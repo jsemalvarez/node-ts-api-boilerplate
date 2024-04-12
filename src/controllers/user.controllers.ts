@@ -42,11 +42,19 @@ export const findOne = async (req: Request, res: Response, next: NextFunction) =
     });
 };
 
-export const update = (req: Request, res: Response) => {
+export const update = (req: Request, res: Response, next: NextFunction) => {
   const userId: string = req.params.userId;
   const userData: UserI.UserUpdateData = req.body;
-  const user = userBusinessProcess.update(userId, userData);
-  res.json({ user });
+
+  userBusinessProcess
+    .update(userId, userData)
+    .then((user) => {
+      res.json({ user });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const remove = async (req: Request, res: Response, next: NextFunction) => {

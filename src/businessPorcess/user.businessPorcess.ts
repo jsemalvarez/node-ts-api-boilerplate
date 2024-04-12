@@ -45,19 +45,28 @@ export const findOne = async (term: string) => {
 };
 
 export const update = async (userId: string, updateUserData: UserI.UserUpdateData) => {
-  await findOne(userId);
+  const user = await findOne(userId);
 
-  const { password, ...restUpdateUserData } = updateUserData;
+  const { password, email, role, ...restUpdateUserData } = updateUserData;
 
   if (password) {
-    throw new Error('password must not be update in this endpoint');
+    throw customError('password must not be update in this endpoint', 404);
+  }
+
+  if (email) {
+    throw customError('email must not be update in this endpoint', 404);
+  }
+
+  if (role) {
+    throw customError('role must not be update in this endpoint', 404);
   }
 
   const userUpdated: UserI.UserUpdateData = {
+    ...user,
     ...restUpdateUserData,
   };
 
-  userService.update(userId, userUpdated);
+  await userService.update(userId, userUpdated);
   return userUpdated;
 };
 

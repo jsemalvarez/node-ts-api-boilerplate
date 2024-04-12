@@ -46,7 +46,8 @@ export const findOne = async (term: string) => {
 };
 
 // eslint-disable-next-line
-export const update = (userId: string, updateUserData: UserI.UserUpdateData): boolean => {
+export const update = async (userId: string, updateUserData: UserI.UserUpdateData) => {
+  await UserModel.updateOne({ _id: userId }, { ...updateUserData });
   return true;
 };
 
