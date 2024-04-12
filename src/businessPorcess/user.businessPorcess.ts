@@ -15,7 +15,7 @@ export const register = async (userCreationData: UserI.UserCreationData) => {
 
   const userCreated = await userService.register(userCreationData);
 
-  const token = await tokenAdapter.generateToken({ id: userCreated._id });
+  const token = await tokenAdapter.generateToken({ id: userCreated.id });
 
   if (!token) {
     throw customError('Error while creating JWT', 500);

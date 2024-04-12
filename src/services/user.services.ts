@@ -1,5 +1,5 @@
 import { isObjectIdOrHexString } from 'mongoose';
-import { UserModel } from '../data/mongo';
+import { UserDocument, UserModel } from '../data/mongo';
 import { UserI } from '../interfaces';
 import { regularExps } from '../utils/regular-exp';
 
@@ -11,14 +11,12 @@ export const register = async (userCreationData: UserI.UserCreationData) => {
     password,
   });
 
-  // await userCreated.save();
-
-  return userCreated.toObject();
+  return formatUser(userCreated);
 };
 
 export const findAll = async () => {
   const users = await UserModel.find();
-  return users;
+  return users.map((user) => formatUser(user));
 };
 
 export const findOne = async (term: string) => {
@@ -32,14 +30,7 @@ export const findOne = async (term: string) => {
   }
 
   if (user) {
-    return {
-      id: user._id + '',
-      name: user.name,
-      email: user.email,
-      emailValidated: user.emailValidated,
-      password: user.password,
-      role: user.role as UserI.UserRole[],
-    };
+    return formatUser(user);
   }
 
   return false;
@@ -87,3 +78,12 @@ export const sendVerifiactionEmail = () => {
 export const verifyEmail = () => {
   throw new Error('Feature verifyEmail.businessProcess not implemented');
 };
+
+export const formatUser = (user: UserDocument): UserI.User => ({
+  id: user._id as string,
+  name: user.name,
+  email: user.email,
+  emailValidated: user.emailValidated,
+  password: user.password,
+  role: user.role,
+});

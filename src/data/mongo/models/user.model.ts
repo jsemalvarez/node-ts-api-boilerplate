@@ -1,6 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { UserI } from '../../../interfaces';
 
-const userSchema = new mongoose.Schema({
+export interface UserDocument extends UserI.User, Document {
+  id: string;
+}
+
+const userSchema = new mongoose.Schema<UserDocument>({
   name: {
     type: String,
     required: true,
@@ -20,9 +25,9 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: [String],
-    enum: ['admin', 'user'],
-    default: ['user'],
+    enum: Object.values(UserI.UserRole),
+    default: [UserI.UserRole.USER],
   },
 });
 
-export const UserModel = mongoose.model('User', userSchema);
+export const UserModel = mongoose.model<UserDocument>('User', userSchema);
