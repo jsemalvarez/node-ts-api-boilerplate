@@ -76,10 +76,29 @@ export const remove = async (userId: string) => {
   return user.id;
 };
 
-export const login = (userCredentialsData: UserI.UserCredentialsData): UserI.UserCreatedData => {
-  const user = userService.login(userCredentialsData);
+export const login = async (userCredentialsData: UserI.UserCredentialsData) => {
+  const user = await userService.findOne(userCredentialsData.email);
 
-  return user;
+  if (!user) {
+    throw customError('user or password invalid!', 404);
+  }
+
+  const isPassword = hashingAdapter.compare(userCredentialsData.password, user.password);
+
+  if (!isPassword) {
+    throw customError('user or password invalid!!', 404);
+  }
+
+  const token = await tokenAdapter.generateToken({ id: user.id });
+
+  if (!token) {
+    throw customError('Error while creating JWT', 500);
+  }
+
+  return {
+    ...user,
+    token,
+  };
 };
 
 export const refreshToken = () => {

@@ -71,10 +71,18 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     });
 };
 
-export const login = (req: Request, res: Response) => {
+export const login = (req: Request, res: Response, next: NextFunction) => {
   const userCredentials: UserI.UserCredentialsData = req.body;
-  const userLogged = userBusinessProcess.login(userCredentials);
-  res.json({ userLogged });
+
+  userBusinessProcess
+    .login(userCredentials)
+    .then((user) => {
+      res.json({ user });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const refreshToken = (req: Request, res: Response) => {
