@@ -38,7 +38,7 @@ export const findOne = async (term: string) => {
   const user = await userService.findOne(term);
 
   if (!user) {
-    throw new Error('User not found');
+    throw customError('User not found', 404);
   }
 
   return user;
@@ -102,21 +102,21 @@ export const login = async (userCredentialsData: UserI.UserCredentialsData) => {
 };
 
 export const refreshToken = () => {
-  throw new Error('Feature refreshToken.businessProcess not implemented');
+  throw customError('Feature refreshToken.businessProcess not implemented', 500);
 };
 
 export const forgotPassword = () => {
-  throw new Error('Feature forgotPassword.businessProcess not implemented');
+  throw customError('Feature forgotPassword.businessProcess not implemented', 500);
 };
 
 export const resetPassword = () => {
-  throw new Error('Feature resetPassword.businessProcess not implemented');
+  throw customError('Feature resetPassword.businessProcess not implemented', 500);
 };
 
 export const sendVerifiactionEmail = () => {
-  throw new Error('Feature sendVerifiactionEmail.businessProcess not implemented');
+  throw customError('Feature sendVerifiactionEmail.businessProcess not implemented', 500);
 };
 
 export const verifyEmail = () => {
-  throw new Error('Feature verifyEmail.businessProcess not implemented');
+  throw customError('Feature verifyEmail.businessProcess not implemented', 500);
 };

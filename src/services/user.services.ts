@@ -2,6 +2,7 @@ import { isObjectIdOrHexString } from 'mongoose';
 import { UserDocument, UserModel } from '../data/mongo';
 import { UserI } from '../interfaces';
 import { regularExps } from '../utils/regular-exp';
+import { customError } from '../utils/custom.error';
 
 export const register = async (userCreationData: UserI.UserCreationData) => {
   const { name, email, password } = userCreationData;
@@ -60,23 +61,23 @@ export const login = (userCredentialsData: UserI.UserCredentialsData): UserI.Use
 };
 
 export const refreshToken = () => {
-  throw new Error('Feature refreshToken.businessProcess not implemented');
+  throw customError('Feature refreshToken.businessProcess not implemented', 500);
 };
 
 export const forgotPassword = () => {
-  throw new Error('Feature forgotPassword.businessProcess not implemented');
+  throw customError('Feature forgotPassword.businessProcess not implemented', 500);
 };
 
 export const resetPassword = () => {
-  throw new Error('Feature resetPassword.businessProcess not implemented');
+  throw customError('Feature resetPassword.businessProcess not implemented', 500);
 };
 
 export const sendVerifiactionEmail = () => {
-  throw new Error('Feature sendVerifiactionEmail.businessProcess not implemented');
+  throw customError('Feature sendVerifiactionEmail.businessProcess not implemented', 500);
 };
 
 export const verifyEmail = () => {
-  throw new Error('Feature verifyEmail.businessProcess not implemented');
+  throw customError('Feature verifyEmail.businessProcess not implemented', 500);
 };
 
 export const formatUser = (user: UserDocument): UserI.User => ({
