@@ -21,6 +21,11 @@ export const findById = async (taskId: string) => {
   return users;
 };
 
+export const update = async (userId: string, taskUpdateData: TaskI.TaskUpdateData) => {
+  await TaskModel.updateOne({ _id: userId }, { ...taskUpdateData });
+  return true;
+};
+
 export const remove = async (taskId: string) => {
   await TaskModel.deleteOne({ _id: taskId });
   return taskId;

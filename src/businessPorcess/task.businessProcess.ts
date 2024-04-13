@@ -22,6 +22,20 @@ export const findById = async (taskId: string) => {
   return task;
 };
 
+export const update = async (taskId: string, taskUpdateData: TaskI.TaskUpdateData) => {
+  const task = await findById(taskId);
+
+  const updateData = {
+    title: task.title,
+    description: task.description,
+    ...taskUpdateData,
+    id: taskId,
+  };
+
+  await taskService.update(taskId, updateData);
+  return updateData;
+};
+
 export const remove = async (taskId: string) => {
   const task = await findById(taskId);
   await taskService.remove(task.id);

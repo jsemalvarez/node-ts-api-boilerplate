@@ -47,9 +47,18 @@ export const findOne = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-export const update = (req: Request, res: Response) => {
-  const todoId = req.params.todoId;
-  res.json({ message: `endpoint update todo by id: ${todoId}` });
+export const update = (req: Request, res: Response, next: NextFunction) => {
+  const todoId = req.params.taskId as string;
+  const taskUpdateData = req.body as TaskI.TaskUpdateData;
+  taskBusinessProcess
+    .update(todoId, taskUpdateData)
+    .then((task) => {
+      res.json({ task });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const remove = (req: Request, res: Response, next: NextFunction) => {

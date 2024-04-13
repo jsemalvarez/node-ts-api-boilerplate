@@ -13,3 +13,5 @@ export interface Task {
 
 export interface TaskCreationData extends Omit<Task, 'id' | 'status' | 'createAt'> {}
 export interface TaskRequestData extends Pick<Task, 'title' | 'description'> {}
+
+export interface TaskUpdateData extends Partial<Task> {}

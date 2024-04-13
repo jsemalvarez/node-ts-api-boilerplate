@@ -13,6 +13,16 @@ export const getTask = {
   }),
 };
 
+export const updateTask = {
+  body: Joi.object({
+    title: Joi.string().optional(),
+    description: Joi.string().optional(),
+  }),
+  params: Joi.object({
+    taskId: Joi.string().required(),
+  }),
+};
+
 export const removeTask = {
   params: Joi.object({
     taskId: Joi.string().required(),
