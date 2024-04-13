@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { taskControllers } from '../controllers';
 
 import { validateDataMiddleware, validateRoleMiddleware, validateTokenMiddleware } from '../middlewares';
-import { createTask, getTask } from '../middlewares/validations/task.validations';
+import { createTask, getTask, removeTask } from '../middlewares/validations/task.validations';
 import { UserRole } from '../interfaces/user.interface';
 
 const router = Router();
@@ -16,6 +16,6 @@ router.get('/:taskId', [validateDataMiddleware(getTask), validateTokenMiddleware
 
 router.patch('/:todoId', taskControllers.update);
 
-router.delete('/:todoId', taskControllers.remove);
+router.delete('/:taskId', [validateDataMiddleware(removeTask), validateTokenMiddleware], taskControllers.remove);
 
 export default router;

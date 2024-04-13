@@ -52,7 +52,15 @@ export const update = (req: Request, res: Response) => {
   res.json({ message: `endpoint update todo by id: ${todoId}` });
 };
 
-export const remove = (req: Request, res: Response) => {
-  const todoId = req.params.todoId;
-  res.json({ message: `endpoint remove todo by id: ${todoId}` });
+export const remove = (req: Request, res: Response, next: NextFunction) => {
+  const todoId = req.params.taskId as string;
+  taskBusinessProcess
+    .remove(todoId)
+    .then((taskIdRemoved) => {
+      res.json({ message: `task ${taskIdRemoved} removed successfully` });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };

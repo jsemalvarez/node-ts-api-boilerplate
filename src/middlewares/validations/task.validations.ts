@@ -12,3 +12,9 @@ export const getTask = {
     taskId: Joi.string().required(),
   }),
 };
+
+export const removeTask = {
+  params: Joi.object({
+    taskId: Joi.string().required(),
+  }),
+};

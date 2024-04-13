@@ -20,3 +20,8 @@ export const findById = async (taskId: string) => {
   const users = await TaskModel.findById(taskId);
   return users;
 };
+
+export const remove = async (taskId: string) => {
+  await TaskModel.deleteOne({ _id: taskId });
+  return taskId;
+};
