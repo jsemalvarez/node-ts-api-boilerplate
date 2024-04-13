@@ -10,3 +10,8 @@ export const create = async (taskCreationData: TaskI.TaskCreationData) => {
   });
   return taskCreated;
 };
+
+export const findAll = async () => {
+  const users = await TaskModel.find();
+  return users;
+};

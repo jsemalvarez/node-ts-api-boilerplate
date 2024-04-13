@@ -1,11 +1,12 @@
+import { TaskI } from '../interfaces';
 import { taskService } from '../services';
 
-export interface TaskData {
-  title: string;
-  description: string;
-}
-
-export const create = async (userId: string, createTaskBody: TaskData) => {
+export const create = async (userId: string, createTaskBody: TaskI.TaskRequestData) => {
   const taskCreated = await taskService.create({ ...createTaskBody, userId });
   return taskCreated;
+};
+
+export const findAll = async () => {
+  const users = await taskService.findAll();
+  return users;
 };

@@ -22,8 +22,16 @@ export const create = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-export const findAll = (_req: Request, res: Response) => {
-  res.json({ message: 'endpoint find all todos' });
+export const findAll = (_req: Request, res: Response, next: NextFunction) => {
+  taskBusinessProcess
+    .findAll()
+    .then((task) => {
+      res.json({ task });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const findOne = (req: Request, res: Response) => {
