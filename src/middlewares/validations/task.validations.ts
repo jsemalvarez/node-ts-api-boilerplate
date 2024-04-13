@@ -6,3 +6,9 @@ export const createTask = {
     description: Joi.string().required(),
   }),
 };
+
+export const getTask = {
+  params: Joi.object({
+    taskId: Joi.string().required(),
+  }),
+};

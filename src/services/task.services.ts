@@ -15,3 +15,8 @@ export const findAll = async () => {
   const users = await TaskModel.find();
   return users;
 };
+
+export const findById = async (taskId: string) => {
+  const users = await TaskModel.findById(taskId);
+  return users;
+};
