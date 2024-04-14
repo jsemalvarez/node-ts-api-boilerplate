@@ -34,6 +34,19 @@ export const findAll = (_req: Request, res: Response, next: NextFunction) => {
     });
 };
 
+export const findAllByUserId = (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.user!.id;
+  taskBusinessProcess
+    .findAllByUserId(userId)
+    .then((tasks) => {
+      res.json({ tasks });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
+};
+
 export const findOne = (req: Request, res: Response, next: NextFunction) => {
   const todoId = req.params.taskId as string;
   taskBusinessProcess

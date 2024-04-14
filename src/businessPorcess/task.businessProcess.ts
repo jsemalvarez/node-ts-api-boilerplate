@@ -12,6 +12,11 @@ export const findAll = async () => {
   return users;
 };
 
+export const findAllByUserId = async (userId: string) => {
+  const users = await taskService.findAllByUserId(userId);
+  return users;
+};
+
 export const findById = async (taskId: string) => {
   const task = await taskService.findById(taskId);
 
