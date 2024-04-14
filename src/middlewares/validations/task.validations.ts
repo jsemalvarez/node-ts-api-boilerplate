@@ -28,3 +28,9 @@ export const removeTask = {
     taskId: Joi.string().required(),
   }),
 };
+
+export const getTasksbyUserId = {
+  params: Joi.object({
+    userId: Joi.string().required(),
+  }),
+};
