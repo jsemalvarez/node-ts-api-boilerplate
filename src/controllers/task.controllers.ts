@@ -10,7 +10,7 @@ declare module 'express' {
 
 export const create = (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user!.id;
-  const taskDataBody = req.body as TaskI.TaskRequestData;
+  const taskDataBody = req.body as TaskI.TaskCreationData;
   taskBusinessProcess
     .create(userId, taskDataBody)
     .then((task) => {
