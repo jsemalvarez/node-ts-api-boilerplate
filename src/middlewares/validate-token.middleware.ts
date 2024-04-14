@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { tokenAdapter } from '../utils';
 import { userService } from '../services';
+import { UserI } from '../interfaces';
+
+declare module 'express' {
+  interface Request {
+    user?: UserI.User;
+  }
+}
 
 export const validateTokenMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.header('Authorization');
@@ -16,7 +23,7 @@ export const validateTokenMiddleware = async (req: Request, res: Response, next:
     const user = await userService.findOne(payload.id);
     if (!user) return res.status(401).json({ error: 'Invalid token' });
 
-    req.body.user = user;
+    req.user = user as UserI.User;
 
     next();
   } catch (error) {

@@ -1,46 +1,49 @@
+import { isObjectIdOrHexString } from 'mongoose';
+import { UserDocument, UserModel } from '../data/mongo';
 import { UserI } from '../interfaces';
 import { regularExps } from '../utils/regular-exp';
+import { customError } from '../utils/custom.error';
 
-export const register = (userCreationData: UserI.UserCreationData): UserI.User => {
-  const userCreated = {
-    id: '',
-    ...userCreationData,
-  };
-  return userCreated;
+export const register = async (userCreationData: UserI.UserCreationData) => {
+  const { name, email, password } = userCreationData;
+  const userCreated = await UserModel.create({
+    name,
+    email,
+    password,
+  });
+
+  return formatUser(userCreated);
 };
 
-export const findAll = (): UserI.User[] => {
-  const users: UserI.User[] = [];
-  return users;
+export const findAll = async () => {
+  const users = await UserModel.find();
+  return users.map((user) => formatUser(user));
 };
 
-export const findOne = (term: string): UserI.UserCreatedData => {
+export const findOne = async (term: string) => {
+  let user = null;
   if (regularExps.email.test(term)) {
-    console.log(' es un email ');
+    user = await UserModel.findOne({ email: term });
   }
 
-  //TODO: validar el id dependiendo el tipo
-  if (typeof term === 'string') {
-    console.log(' es un email ');
+  if (isObjectIdOrHexString(term)) {
+    user = await UserModel.findById(term);
   }
 
-  const user: UserI.UserCreatedData = {
-    token: '',
-    id: term,
-    name: '',
-    email: '',
-    emailValidated: false,
-    role: [],
-  };
-  return user;
+  if (user) {
+    return formatUser(user);
+  }
+
+  return false;
 };
 
-// eslint-disable-next-line
-export const update = (userId: string, updateUserData: UserI.UserUpdateData): boolean => {
+export const update = async (userId: string, updateUserData: UserI.UserUpdateData) => {
+  await UserModel.updateOne({ _id: userId }, { ...updateUserData });
   return true;
 };
 
-export const remove = (userId: string): string => {
+export const remove = async (userId: string) => {
+  await UserModel.deleteOne({ _id: userId });
   return userId;
 };
 
@@ -56,22 +59,27 @@ export const login = (userCredentialsData: UserI.UserCredentialsData): UserI.Use
   return user;
 };
 
-export const refreshToken = () => {
-  throw new Error('Feature refreshToken.businessProcess not implemented');
-};
-
 export const forgotPassword = () => {
-  throw new Error('Feature forgotPassword.businessProcess not implemented');
+  throw customError('Feature forgotPassword.businessProcess not implemented', 500);
 };
 
 export const resetPassword = () => {
-  throw new Error('Feature resetPassword.businessProcess not implemented');
+  throw customError('Feature resetPassword.businessProcess not implemented', 500);
 };
 
 export const sendVerifiactionEmail = () => {
-  throw new Error('Feature sendVerifiactionEmail.businessProcess not implemented');
+  throw customError('Feature sendVerifiactionEmail.businessProcess not implemented', 500);
 };
 
 export const verifyEmail = () => {
-  throw new Error('Feature verifyEmail.businessProcess not implemented');
+  throw customError('Feature verifyEmail.businessProcess not implemented', 500);
 };
+
+export const formatUser = (user: UserDocument): UserI.User => ({
+  id: user._id as string,
+  name: user.name,
+  email: user.email,
+  emailValidated: user.emailValidated,
+  password: user.password,
+  role: user.role,
+});

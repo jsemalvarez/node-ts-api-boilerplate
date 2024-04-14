@@ -3,16 +3,17 @@ import { userService } from '../services';
 import { hashingAdapter, tokenAdapter } from '../utils';
 import { customError } from '../utils/custom.error';
 
-export const register = async (userCreationData: UserI.UserCreationData): Promise<UserI.UserCreatedData> => {
-  const userSaved = userService.findOne(userCreationData.email);
+export const register = async (userCreationData: UserI.UserCreationData) => {
+  const userSaved = await userService.findOne(userCreationData.email);
   if (userSaved) {
     throw customError('user already exist', 400);
   }
+
   const passwordHashed = hashingAdapter.hash(userCreationData.password);
 
   userCreationData.password = passwordHashed;
 
-  const userCreated = userService.register(userCreationData);
+  const userCreated = await userService.register(userCreationData);
 
   const token = await tokenAdapter.generateToken({ id: userCreated.id });
 
@@ -28,68 +29,95 @@ export const register = async (userCreationData: UserI.UserCreationData): Promis
   return user;
 };
 
-export const findAll = (): UserI.User[] => {
-  const users = userService.findAll();
+export const findAll = async () => {
+  const users = await userService.findAll();
   return users;
 };
 
-export const findOne = (userId: string): UserI.UserCreatedData => {
-  const user = userService.findOne(userId);
+export const findOne = async (term: string) => {
+  const user = await userService.findOne(term);
 
   if (!user) {
-    throw new Error('User not found');
+    throw customError('User not found', 404);
   }
 
   return user;
 };
 
-export const update = (userId: string, updateUserData: UserI.UserUpdateData): UserI.UserUpdatedData => {
-  const user = findOne(userId);
+export const update = async (userId: string, updateUserData: UserI.UserUpdateData) => {
+  const user = await findOne(userId);
 
-  const { password, ...restUpdateUserData } = updateUserData;
+  const { password, email, role, ...restUpdateUserData } = updateUserData;
 
   if (password) {
-    throw new Error('password must not be update in this endpoint');
+    throw customError('password must not be update in this endpoint', 404);
   }
 
-  const userUpdated: UserI.UserUpdatedData = {
+  if (email) {
+    throw customError('email must not be update in this endpoint', 404);
+  }
+
+  if (role) {
+    throw customError('role must not be update in this endpoint', 404);
+  }
+
+  const userUpdated: UserI.UserUpdateData = {
     ...user,
     ...restUpdateUserData,
-    id: userId,
   };
 
-  userService.update(userId, userUpdated);
+  await userService.update(userId, userUpdated);
   return userUpdated;
 };
 
-export const remove = (userId: string) => {
-  const user = findOne(userId);
-  const userIdRemoved = userService.remove(user.id);
-  return `user ${userIdRemoved} removed successfully`;
+export const remove = async (userId: string) => {
+  const user = await findOne(userId);
+  await userService.remove(user.id);
+  return user.id;
 };
 
-export const login = (userCredentialsData: UserI.UserCredentialsData): UserI.UserCreatedData => {
-  const user = userService.login(userCredentialsData);
+export const login = async (userCredentialsData: UserI.UserCredentialsData) => {
+  const user = await userService.findOne(userCredentialsData.email);
 
-  return user;
+  if (!user) {
+    throw customError('user or password invalid!', 404);
+  }
+
+  const isPassword = hashingAdapter.compare(userCredentialsData.password, user.password);
+
+  if (!isPassword) {
+    throw customError('user or password invalid!!', 404);
+  }
+
+  const token = await tokenAdapter.generateToken({ id: user.id });
+
+  if (!token) {
+    throw customError('Error while creating JWT', 500);
+  }
+
+  return {
+    ...user,
+    token,
+  };
 };
 
-export const refreshToken = () => {
-  throw new Error('Feature refreshToken.businessProcess not implemented');
+export const refreshToken = async (userId: string) => {
+  const token = await tokenAdapter.generateToken({ id: userId });
+  return token;
 };
 
 export const forgotPassword = () => {
-  throw new Error('Feature forgotPassword.businessProcess not implemented');
+  throw customError('Feature forgotPassword.businessProcess not implemented', 500);
 };
 
 export const resetPassword = () => {
-  throw new Error('Feature resetPassword.businessProcess not implemented');
+  throw customError('Feature resetPassword.businessProcess not implemented', 500);
 };
 
 export const sendVerifiactionEmail = () => {
-  throw new Error('Feature sendVerifiactionEmail.businessProcess not implemented');
+  throw customError('Feature sendVerifiactionEmail.businessProcess not implemented', 500);
 };
 
 export const verifyEmail = () => {
-  throw new Error('Feature verifyEmail.businessProcess not implemented');
+  throw customError('Feature verifyEmail.businessProcess not implemented', 500);
 };

@@ -2,6 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { userBusinessProcess } from '../businessPorcess';
 import { UserI } from '../interfaces';
 
+declare module 'express' {
+  interface Request {
+    user?: UserI.User;
+  }
+}
+
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   const newUser: UserI.UserCreationData = req.body;
 
@@ -16,39 +22,87 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     });
 };
 
-export const findAll = (_req: Request, res: Response) => {
-  const users: UserI.User[] = userBusinessProcess.findAll();
-  res.json({ users });
+export const findAll = (_req: Request, res: Response, next: NextFunction) => {
+  userBusinessProcess
+    .findAll()
+    .then((users) => {
+      res.json({ users });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
-export const findOne = (req: Request, res: Response) => {
+export const findOne = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;
-  const user = userBusinessProcess.findOne(userId);
-  res.json({ user });
+
+  userBusinessProcess
+    .findOne(userId)
+    .then((user) => {
+      res.json({ user });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
-export const update = (req: Request, res: Response) => {
+export const update = (req: Request, res: Response, next: NextFunction) => {
   const userId: string = req.params.userId;
   const userData: UserI.UserUpdateData = req.body;
-  const user = userBusinessProcess.update(userId, userData);
-  res.json({ user });
+
+  userBusinessProcess
+    .update(userId, userData)
+    .then((user) => {
+      res.json({ user });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
-export const remove = (req: Request, res: Response) => {
+export const remove = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;
-  const userIdRemoved = userBusinessProcess.remove(userId);
-  res.json({ message: `user ${userIdRemoved} removed successfully` });
+
+  userBusinessProcess
+    .remove(userId)
+    .then((userIdRemoved) => {
+      res.json({ message: `user ${userIdRemoved} removed successfully` });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
-export const login = (req: Request, res: Response) => {
+export const login = (req: Request, res: Response, next: NextFunction) => {
   const userCredentials: UserI.UserCredentialsData = req.body;
-  const userLogged = userBusinessProcess.login(userCredentials);
-  res.json({ userLogged });
+
+  userBusinessProcess
+    .login(userCredentials)
+    .then((user) => {
+      res.json({ user });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
-export const refreshToken = (req: Request, res: Response) => {
-  const oldToken = req.body;
-  res.json({ message: `endpoint refresh tokens`, token: oldToken });
+export const refreshToken = (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.user!.id as string;
+
+  userBusinessProcess
+    .refreshToken(userId)
+    .then((token) => {
+      res.json({ token });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const forgotPassword = (req: Request, res: Response) => {
