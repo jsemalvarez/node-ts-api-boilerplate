@@ -12,7 +12,7 @@ router.post('/', [validateDataMiddleware(createTask), validateTokenMiddleware], 
 
 router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], taskControllers.findAll);
 
-router.get('/find-all-by-userid', [validateTokenMiddleware], taskControllers.findAllByUserId);
+router.get('/find-all-by-userid/:userId', [validateTokenMiddleware], taskControllers.findAllByUserId);
 
 router.get('/:taskId', [validateDataMiddleware(getTask), validateTokenMiddleware], taskControllers.findOne);
 
