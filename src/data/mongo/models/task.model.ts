@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 import { TaskI } from '../../../interfaces';
 
-const taskSchema = new mongoose.Schema(
+export interface TaskDocument extends TaskI.Task, Document {
+  id: string;
+}
+
+const taskSchema = new mongoose.Schema<TaskI.Task>(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -16,10 +20,10 @@ const taskSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: [String],
+    status: {
+      type: String,
       enum: Object.values(TaskI.TaskStatus),
-      default: [TaskI.TaskStatus.TO_DO],
+      default: TaskI.TaskStatus.TO_DO,
     },
   },
   {
@@ -27,4 +31,4 @@ const taskSchema = new mongoose.Schema(
   },
 );
 
-export const TaskModel = mongoose.model('Task', taskSchema);
+export const TaskModel = mongoose.model<TaskI.Task>('Task', taskSchema);

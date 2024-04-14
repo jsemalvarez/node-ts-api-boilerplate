@@ -1,3 +1,5 @@
+import { ObjectUserId } from '../data/mongo/mongoose-types';
+
 export enum TaskStatus {
   TO_DO = 'ready',
   IN_PROGRES = 'in progres',
@@ -10,8 +12,8 @@ export interface Task {
   title: string;
   description: string;
   status: TaskStatus;
-  createAt: Date;
-  userId: string;
+  createdAt: Date;
+  userId: ObjectUserId;
 }
 
 export interface TaskCreationData extends Pick<Task, 'title' | 'description'> {}
