@@ -2,8 +2,8 @@ import { TaskI } from '../interfaces';
 import { taskService } from '../services';
 import { customError } from '../utils/custom.error';
 
-export const create = async (userId: string, createTaskBody: TaskI.TaskRequestData) => {
-  const taskCreated = await taskService.create({ ...createTaskBody, userId });
+export const create = async (userId: string, taskCreationData: TaskI.TaskCreationData) => {
+  const taskCreated = await taskService.create(userId, taskCreationData);
   return taskCreated;
 };
 

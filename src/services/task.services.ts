@@ -1,8 +1,8 @@
 import { TaskModel } from '../data/mongo';
 import { TaskI } from '../interfaces';
 
-export const create = async (taskCreationData: TaskI.TaskCreationData) => {
-  const { title, description, userId } = taskCreationData;
+export const create = async (userId: string, taskCreationData: TaskI.TaskCreationData) => {
+  const { title, description } = taskCreationData;
   const taskCreated = TaskModel.create({
     title,
     description,

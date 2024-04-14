@@ -1,5 +1,8 @@
 export enum TaskStatus {
-  READY = 'ready',
+  TO_DO = 'ready',
+  IN_PROGRES = 'in progres',
+  DONE = 'done',
+  CANCELLED = 'cancelled',
 }
 
 export interface Task {
@@ -11,7 +14,6 @@ export interface Task {
   userId: string;
 }
 
-export interface TaskCreationData extends Omit<Task, 'id' | 'status' | 'createAt'> {}
-export interface TaskRequestData extends Pick<Task, 'title' | 'description'> {}
+export interface TaskCreationData extends Pick<Task, 'title' | 'description'> {}
 
 export interface TaskUpdateData extends Partial<Task> {}
