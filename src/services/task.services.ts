@@ -12,17 +12,17 @@ export const create = async (userId: string, taskCreationData: TaskI.TaskCreatio
 };
 
 export const findAll = async () => {
-  const users = await TaskModel.find();
+  const users = await TaskModel.find().populate('userId');
   return users;
 };
 
 export const findAllByUserId = async (userId: string) => {
-  const users = await TaskModel.find({ userId });
+  const users = await TaskModel.find({ userId }).populate('userId');
   return users;
 };
 
 export const findById = async (taskId: string) => {
-  const users = await TaskModel.findById(taskId);
+  const users = await TaskModel.findById(taskId).populate('userId');
   return users;
 };
 
