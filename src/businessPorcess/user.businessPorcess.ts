@@ -101,8 +101,9 @@ export const login = async (userCredentialsData: UserI.UserCredentialsData) => {
   };
 };
 
-export const refreshToken = () => {
-  throw customError('Feature refreshToken.businessProcess not implemented', 500);
+export const refreshToken = async (userId: string) => {
+  const token = await tokenAdapter.generateToken({ id: userId });
+  return token;
 };
 
 export const forgotPassword = () => {

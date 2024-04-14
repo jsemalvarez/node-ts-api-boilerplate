@@ -59,10 +59,6 @@ export const login = (userCredentialsData: UserI.UserCredentialsData): UserI.Use
   return user;
 };
 
-export const refreshToken = () => {
-  throw customError('Feature refreshToken.businessProcess not implemented', 500);
-};
-
 export const forgotPassword = () => {
   throw customError('Feature forgotPassword.businessProcess not implemented', 500);
 };

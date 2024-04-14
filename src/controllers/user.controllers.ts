@@ -2,6 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { userBusinessProcess } from '../businessPorcess';
 import { UserI } from '../interfaces';
 
+declare module 'express' {
+  interface Request {
+    user?: UserI.User;
+  }
+}
+
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   const newUser: UserI.UserCreationData = req.body;
 
@@ -85,9 +91,18 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-export const refreshToken = (req: Request, res: Response) => {
-  const oldToken = req.body;
-  res.json({ message: `endpoint refresh tokens`, token: oldToken });
+export const refreshToken = (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.user!.id as string;
+
+  userBusinessProcess
+    .refreshToken(userId)
+    .then((token) => {
+      res.json({ token });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
 };
 
 export const forgotPassword = (req: Request, res: Response) => {

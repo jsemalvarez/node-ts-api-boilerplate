@@ -23,7 +23,7 @@ router.delete(
 
 router.post('/login', [validateDataMiddleware(loginUser)], userContrller.login);
 
-router.post('/refresh-token', userContrller.refreshToken);
+router.post('/refresh-token', [validateTokenMiddleware], userContrller.refreshToken);
 
 router.post('/forgot-password', userContrller.forgotPassword);
 
