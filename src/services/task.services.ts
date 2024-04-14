@@ -1,4 +1,4 @@
-import { TaskModel } from '../data/mongo';
+import { TaskDocument, TaskModel } from '../data/mongo';
 import { TaskI } from '../interfaces';
 
 export const create = async (userId: string, taskCreationData: TaskI.TaskCreationData) => {
@@ -12,18 +12,21 @@ export const create = async (userId: string, taskCreationData: TaskI.TaskCreatio
 };
 
 export const findAll = async () => {
-  const users = await TaskModel.find().populate('userId');
-  return users;
+  const tasks = await TaskModel.find().populate('userId');
+  return tasks.map((task) => formatTask(task));
 };
 
 export const findAllByUserId = async (userId: string) => {
-  const users = await TaskModel.find({ userId }).populate('userId');
-  return users;
+  const tasks = await TaskModel.find({ userId }).populate('userId');
+  return tasks.map((task) => formatTask(task));
 };
 
 export const findById = async (taskId: string) => {
-  const users = await TaskModel.findById(taskId).populate('userId');
-  return users;
+  const task = await TaskModel.findById(taskId).populate('userId');
+  if (task) {
+    return formatTask(task);
+  }
+  return null;
 };
 
 export const update = async (userId: string, taskUpdateData: TaskI.TaskUpdateData) => {
@@ -35,3 +38,15 @@ export const remove = async (taskId: string) => {
   await TaskModel.deleteOne({ _id: taskId });
   return taskId;
 };
+
+export const formatTask = (task: TaskDocument): TaskI.TaskUserDetails => ({
+  id: task.id,
+  title: task.title,
+  description: task.description,
+  status: task.status,
+  createdAt: task.createdAt,
+  user: {
+    id: task.userId.id,
+    name: task.userId.name,
+  },
+});

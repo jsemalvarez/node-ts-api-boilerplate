@@ -5,7 +5,7 @@ export interface TaskDocument extends TaskI.Task, Document {
   id: string;
 }
 
-const taskSchema = new mongoose.Schema<TaskI.Task>(
+const taskSchema = new mongoose.Schema<TaskDocument>(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,4 +31,4 @@ const taskSchema = new mongoose.Schema<TaskI.Task>(
   },
 );
 
-export const TaskModel = mongoose.model<TaskI.Task>('Task', taskSchema);
+export const TaskModel = mongoose.model<TaskDocument>('Task', taskSchema);

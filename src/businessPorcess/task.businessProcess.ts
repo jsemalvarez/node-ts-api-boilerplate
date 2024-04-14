@@ -8,13 +8,13 @@ export const create = async (userId: string, taskCreationData: TaskI.TaskCreatio
 };
 
 export const findAll = async () => {
-  const users = await taskService.findAll();
-  return users;
+  const tasks = await taskService.findAll();
+  return tasks;
 };
 
 export const findAllByUserId = async (userId: string) => {
-  const users = await taskService.findAllByUserId(userId);
-  return users;
+  const tasks = await taskService.findAllByUserId(userId);
+  return tasks;
 };
 
 export const findById = async (taskId: string) => {
