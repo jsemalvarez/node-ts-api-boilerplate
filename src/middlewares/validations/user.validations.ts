@@ -23,6 +23,12 @@ export const updateUser = {
   }),
 };
 
+export const updateUserBySelf = {
+  body: Joi.object({
+    name: Joi.string().required(),
+  }),
+};
+
 export const loginUser = {
   body: Joi.object({
     email: Joi.string().required(),

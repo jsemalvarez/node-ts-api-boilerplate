@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserI } from '../interfaces';
+import { UserRole } from '../interfaces/user.interface';
 
 declare module 'express' {
   interface Request {
@@ -17,6 +18,10 @@ export const validateRoleMiddleware = (requiredRole: UserI.UserRole) => {
 
     if (!userRole.includes(requiredRole)) {
       return res.status(403).json({ error: 'Acceso no autorizado' });
+    }
+
+    if (requiredRole === UserRole.USER) {
+      req.params.id = user.id;
     }
 
     next();

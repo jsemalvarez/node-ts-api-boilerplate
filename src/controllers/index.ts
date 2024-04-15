@@ -1,3 +1,4 @@
-import * as taskControllers from '../controllers/task.controllers';
+import * as taskController from '../controllers/task.controllers';
+import * as userController from '../controllers/user.controllers';
 
-export { taskControllers };
+export { taskController, userController };

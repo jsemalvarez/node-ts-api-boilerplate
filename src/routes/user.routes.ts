@@ -1,36 +1,34 @@
 import { Router } from 'express';
 
-import * as userContrller from '../controllers/user.controllers';
-import { validateDataMiddleware, validateTokenMiddleware, validateRoleMiddleware } from '../middlewares';
-import { createUser, getUser, loginUser, removeUser, updateUser } from '../middlewares/validations/user.validations';
+import { userController } from '../controllers';
+import { validateDataMiddleware, validateRoleMiddleware, validateTokenMiddleware } from '../middlewares';
+import { createUser, loginUser, updateUserBySelf } from '../middlewares/validations/user.validations';
 import { UserRole } from '../interfaces/user.interface';
 
 const router = Router();
 
-router.post('/register', [validateDataMiddleware(createUser)], userContrller.register);
+router.post('/register', [validateDataMiddleware(createUser)], userController.register);
 
-router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userContrller.findAll);
+router.post('/login', [validateDataMiddleware(loginUser)], userController.login);
 
-router.get('/:userId', [validateDataMiddleware(getUser), validateTokenMiddleware], userContrller.findOne);
+router.get('/profile', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userController.findOne);
 
-router.patch('/:userId', [validateDataMiddleware(updateUser), validateTokenMiddleware], userContrller.update);
-
-router.delete(
-  '/:userId',
-  [validateDataMiddleware(removeUser), validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)],
-  userContrller.remove,
+router.patch(
+  '/',
+  [validateDataMiddleware(updateUserBySelf), validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)],
+  userController.update,
 );
 
-router.post('/login', [validateDataMiddleware(loginUser)], userContrller.login);
+router.delete('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userController.remove);
 
-router.post('/refresh-token', [validateTokenMiddleware], userContrller.refreshToken);
+router.post('/refresh-token', [validateTokenMiddleware], userController.refreshToken);
 
-router.post('/forgot-password', userContrller.forgotPassword);
+router.post('/forgot-password', userController.forgotPassword);
 
-router.post('/reset-password', userContrller.resetPassword);
+router.post('/reset-password', userController.resetPassword);
 
-router.post('/send-verifiaction-email', userContrller.sendVerifiactionEmail);
+router.post('/send-verifiaction-email', userController.sendVerifiactionEmail);
 
-router.post('/verify-email', userContrller.verifyEmail);
+router.post('/verify-email', userController.verifyEmail);
 
 export default router;
