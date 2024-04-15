@@ -1,34 +1,32 @@
 import { Router, Response } from 'express';
+import { validateDataMiddleware, validateRoleMiddleware, validateTokenMiddleware } from '../middlewares';
+import { UserRole } from '../interfaces/user.interface';
+import { taskController, userController } from '../controllers';
+import { getUser, removeUser, updateUser } from '../middlewares/validations/user.validations';
 
-const router = Router();
+export const router = Router();
 
-router.post('/users/register', (_req, res) => {
-  res.json({ message: 'endpoint register' });
-});
+router.get('/users/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userController.findAll);
 
-router.get('/users/', (_req, res) => {
-  res.json({ message: 'endpoint get-users' });
-});
+router.get(
+  '/users/:userId',
+  [validateDataMiddleware(getUser), validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)],
+  userController.findOne,
+);
 
-router.get('/users/:userId', (_req, res) => {
-  res.json({ message: 'endpoint get-user by id' });
-});
+router.patch(
+  '/users/:userId',
+  [validateDataMiddleware(updateUser), validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)],
+  userController.update,
+);
 
-router.patch('/users/:userId', (_req, res) => {
-  res.json({ message: 'endpoint update-user by id' });
-});
+router.delete(
+  '/:userId',
+  [validateDataMiddleware(removeUser), validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)],
+  userController.remove,
+);
 
-router.delete('/users/:userId', (_req, res) => {
-  res.json({ message: 'endpoint delete-user by id' });
-});
-
-router.post('/todos/', (_req, res: Response) => {
-  res.json({ message: 'endpoint create todo' });
-});
-
-router.get('/todos/', (_req, res: Response) => {
-  res.json({ message: 'endpoint get-all todos' });
-});
+router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], taskController.findAll);
 
 router.get('/todos/:todoId', (_req, res: Response) => {
   res.json({ message: 'endpoit get-todo by id' });
