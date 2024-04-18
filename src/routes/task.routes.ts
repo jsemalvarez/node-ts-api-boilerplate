@@ -1,33 +1,33 @@
 import { Router } from 'express';
 
-import { taskControllers } from '../controllers';
+import { taskController } from '../controllers';
 
 import { validateDataMiddleware, validateRoleMiddleware, validateTokenMiddleware } from '../middlewares';
-import {
-  createTask,
-  getTask,
-  getTasksbyUserId,
-  removeTask,
-  updateTask,
-} from '../middlewares/validations/task.validations';
+import { createTask, getTask, removeTask, updateTask } from '../middlewares/validations/task.validations';
 import { UserRole } from '../interfaces/user.interface';
 
 const router = Router();
 
-router.post('/', [validateDataMiddleware(createTask), validateTokenMiddleware], taskControllers.create);
+router.post('/', [validateDataMiddleware(createTask), validateTokenMiddleware], taskController.create);
 
-router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], taskControllers.findAll);
+router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], taskController.findAllByUserId);
 
 router.get(
-  '/find-all-by-userid/:userId',
-  [validateDataMiddleware(getTasksbyUserId), validateTokenMiddleware],
-  taskControllers.findAllByUserId,
+  '/:taskId',
+  [validateDataMiddleware(getTask), validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)],
+  taskController.findOne,
 );
 
-router.get('/:taskId', [validateDataMiddleware(getTask), validateTokenMiddleware], taskControllers.findOne);
+router.patch(
+  '/:taskId',
+  [validateDataMiddleware(updateTask), validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)],
+  taskController.update,
+);
 
-router.patch('/:taskId', [validateDataMiddleware(updateTask), validateTokenMiddleware], taskControllers.update);
-
-router.delete('/:taskId', [validateDataMiddleware(removeTask), validateTokenMiddleware], taskControllers.remove);
+router.delete(
+  '/:taskId',
+  [validateDataMiddleware(removeTask), validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)],
+  taskController.remove,
+);
 
 export default router;
