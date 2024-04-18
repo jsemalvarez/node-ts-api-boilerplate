@@ -1,8 +1,9 @@
-import { Router, Response } from 'express';
+import { Router } from 'express';
 import { validateDataMiddleware, validateRoleMiddleware, validateTokenMiddleware } from '../middlewares';
 import { UserRole } from '../interfaces/user.interface';
 import { taskController, userController } from '../controllers';
 import { getUser, removeUser, updateUser } from '../middlewares/validations/user.validations';
+import { getTask, removeTask, updateTask } from '../middlewares/validations/task.validations';
 
 export const router = Router();
 
@@ -28,16 +29,22 @@ router.delete(
 
 router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], taskController.findAll);
 
-router.get('/todos/:todoId', (_req, res: Response) => {
-  res.json({ message: 'endpoit get-todo by id' });
-});
+router.get(
+  '/task/:taskId',
+  [validateDataMiddleware(getTask), validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)],
+  taskController.findOne,
+);
 
-router.patch('/todos/:todoId', (_req, res: Response) => {
-  res.json({ message: 'endpoit update-todo by id' });
-});
+router.patch(
+  '/task/:taskId',
+  [validateDataMiddleware(updateTask), validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)],
+  taskController.update,
+);
 
-router.delete('/todos/:todoId', (_req, res: Response) => {
-  res.json({ message: 'endpoit delete-todo by id' });
-});
+router.delete(
+  '/task/:taskId',
+  [validateDataMiddleware(removeTask), validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)],
+  taskController.remove,
+);
 
 export default router;
