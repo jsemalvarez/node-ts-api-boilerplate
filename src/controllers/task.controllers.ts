@@ -49,8 +49,10 @@ export const findAllByUserId = (req: Request, res: Response, next: NextFunction)
 
 export const findOne = (req: Request, res: Response, next: NextFunction) => {
   const todoId = req.params.taskId as string;
+  const userId = req.params.userId;
+
   taskBusinessProcess
-    .findById(todoId)
+    .findById(todoId, userId)
     .then((task) => {
       res.json({ task });
     })
@@ -62,9 +64,10 @@ export const findOne = (req: Request, res: Response, next: NextFunction) => {
 
 export const update = (req: Request, res: Response, next: NextFunction) => {
   const todoId = req.params.taskId as string;
+  const userId = req.params.userId;
   const taskUpdateData = req.body as TaskI.TaskUpdateData;
   taskBusinessProcess
-    .update(todoId, taskUpdateData)
+    .update(todoId, taskUpdateData, userId)
     .then((task) => {
       res.json({ task });
     })
@@ -76,8 +79,9 @@ export const update = (req: Request, res: Response, next: NextFunction) => {
 
 export const remove = (req: Request, res: Response, next: NextFunction) => {
   const todoId = req.params.taskId as string;
+  const userId = req.params.userId;
   taskBusinessProcess
-    .remove(todoId)
+    .remove(todoId, userId)
     .then((taskIdRemoved) => {
       res.json({ message: `task ${taskIdRemoved} removed successfully` });
     })

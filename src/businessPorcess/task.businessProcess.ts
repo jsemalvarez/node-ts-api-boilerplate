@@ -17,18 +17,22 @@ export const findAllByUserId = async (userId: string) => {
   return tasks;
 };
 
-export const findById = async (taskId: string) => {
+export const findById = async (taskId: string, userId?: string) => {
   const task = await taskService.findById(taskId);
 
   if (!task) {
     throw customError('Task not found', 404);
   }
 
+  if (userId && userId !== task.user.id) {
+    throw customError('Accion no autorizada', 403);
+  }
+
   return task;
 };
 
-export const update = async (taskId: string, taskUpdateData: TaskI.TaskUpdateData) => {
-  const task = await findById(taskId);
+export const update = async (taskId: string, taskUpdateData: TaskI.TaskUpdateData, userId?: string) => {
+  const task = await findById(taskId, userId);
 
   const updateData = {
     title: task.title,
@@ -41,8 +45,8 @@ export const update = async (taskId: string, taskUpdateData: TaskI.TaskUpdateDat
   return updateData;
 };
 
-export const remove = async (taskId: string) => {
-  const task = await findById(taskId);
+export const remove = async (taskId: string, userId?: string) => {
+  const task = await findById(taskId, userId);
   await taskService.remove(task.id);
   return task.id;
 };
