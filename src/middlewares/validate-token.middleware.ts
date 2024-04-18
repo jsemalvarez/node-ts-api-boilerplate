@@ -21,7 +21,7 @@ export const validateTokenMiddleware = async (req: Request, res: Response, next:
     if (!payload) return res.status(401).json({ error: 'Invalid token' });
 
     const user = await userService.findOne(payload.id);
-    if (!user) return res.status(401).json({ error: 'Invalid token' });
+    if (!user) return res.status(401).json({ error: 'Invalid user' });
 
     req.user = user as UserI.User;
 
