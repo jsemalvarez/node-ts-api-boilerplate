@@ -14,12 +14,12 @@ router.post('/login', [validateDataMiddleware(loginUser)], userController.login)
 router.get('/profile', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userController.findOne);
 
 router.patch(
-  '/',
+  '/profile',
   [validateDataMiddleware(updateUserBySelf), validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)],
   userController.update,
 );
 
-router.delete('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userController.remove);
+router.delete('/profile', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userController.remove);
 
 router.post('/refresh-token', [validateTokenMiddleware], userController.refreshToken);
 
