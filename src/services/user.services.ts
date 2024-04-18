@@ -76,7 +76,7 @@ export const verifyEmail = () => {
 };
 
 export const formatUser = (user: UserDocument): UserI.User => ({
-  id: user._id as string,
+  id: user.id,
   name: user.name,
   email: user.email,
   emailValidated: user.emailValidated,
