@@ -21,7 +21,7 @@ export const validateRoleMiddleware = (requiredRole: UserI.UserRole) => {
     }
 
     if (requiredRole === UserRole.USER) {
-      req.params.id = user.id;
+      req.params.userId = user.id;
     }
 
     next();
