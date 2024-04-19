@@ -95,7 +95,7 @@ List of available routes:
 `POST /v1/users/forgot-password` - send reset password email (pending)\
 `POST /v1/users/reset-password` - reset password (pending)\
 `POST /v1/users/send-verification-email` - send verification email (pending)\
-`POST /v1/users/verify-email` - verify email (pending)\
+`POST /v1/users/verify-email` - verify email (pending)
 
 **Admin routes**:\
 `GET /v1/admin/users` - get all users\
@@ -105,11 +105,11 @@ List of available routes:
 `GET /v1/admin/task` - get all task\
 `GET /v1/admin/task/:taskId` - get task\
 `PATCH /v1/admin/task/:taskId` - update task\
-`DELETE /v1/admin/task/:taskId` - delete task\
+`DELETE /v1/admin/task/:taskId` - delete task
 
 **Tasks routes**:\
 `POST /v1/task` - create a task\
 `GET /v1/task` - get all task by user\
 `GET /v1/task/:taskId` - get task by user\
 `PATCH /v1/task/:taskId` - update task by user\
-`DELETE /v1/task/:taskId` - delete task by user\
+`DELETE /v1/task/:taskId` - delete task by user
