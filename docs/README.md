@@ -86,9 +86,9 @@ src\
 List of available routes:
 
 **User routes**:\
-`GET /v1/users/:userId` - get user\
-`PATCH /v1/users/:userId` - update user\
-`DELETE /v1/users/:userId` - delete user\
+`GET /v1/users/profile` - get user\
+`PATCH /v1/users/profile` - update user\
+`DELETE /v1/users/profile` - delete user\
 `POST /v1/users/register` - register\
 `POST /v1/users/login` - login\
 `POST /v1/users/refresh-tokens` - refresh auth tokens\
