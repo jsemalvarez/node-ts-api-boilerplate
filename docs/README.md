@@ -28,7 +28,7 @@ Clone the repo:
 
 ```bash
 git clone https://github.com/jsemalvarez/node-ts-api-boilerplate.git
-cd node-express-boilerplate
+cd node-ts-api-boilerplate
 npx rimraf ./.git
 ```
 
