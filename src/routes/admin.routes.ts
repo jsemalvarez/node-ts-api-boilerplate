@@ -22,7 +22,7 @@ router.patch(
 );
 
 router.delete(
-  '/:userId',
+  '/users/:userId',
   [validateDataMiddleware(removeUser), validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)],
   userController.remove,
 );
