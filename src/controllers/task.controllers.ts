@@ -22,22 +22,11 @@ export const create = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-export const findAll = (_req: Request, res: Response, next: NextFunction) => {
-  taskBusinessProcess
-    .findAll()
-    .then((tasks) => {
-      res.json({ tasks });
-    })
-    // eslint-disable-next-line
-    .catch((error: any) => {
-      next(error);
-    });
-};
+export const findAll = (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.params.userId;
 
-export const findAllByUserId = (req: Request, res: Response, next: NextFunction) => {
-  const userId = req.user!.id;
   taskBusinessProcess
-    .findAllByUserId(userId)
+    .findAll(userId)
     .then((tasks) => {
       res.json({ tasks });
     })

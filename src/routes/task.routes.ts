@@ -10,7 +10,7 @@ const router = Router();
 
 router.post('/', [validateDataMiddleware(createTask), validateTokenMiddleware], taskController.create);
 
-router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], taskController.findAllByUserId);
+router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], taskController.findAll);
 
 router.get(
   '/:taskId',

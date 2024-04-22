@@ -7,7 +7,7 @@ import { getTask, removeTask, updateTask } from '../middlewares/validations/task
 
 export const router = Router();
 
-router.get('/users/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userController.findAll);
+router.get('/users', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], userController.findAll);
 
 router.get(
   '/users/:userId',
@@ -27,7 +27,7 @@ router.delete(
   userController.remove,
 );
 
-router.get('/', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], taskController.findAll);
+router.get('/task', [validateTokenMiddleware, validateRoleMiddleware(UserRole.ADMIN)], taskController.findAll);
 
 router.get(
   '/task/:taskId',

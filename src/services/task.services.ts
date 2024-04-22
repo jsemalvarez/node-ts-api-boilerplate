@@ -11,13 +11,9 @@ export const create = async (userId: string, taskCreationData: TaskI.TaskCreatio
   return taskCreated;
 };
 
-export const findAll = async () => {
-  const tasks = await TaskModel.find().populate('userId');
-  return tasks.map((task) => formatTask(task));
-};
-
-export const findAllByUserId = async (userId: string) => {
-  const tasks = await TaskModel.find({ userId }).populate('userId');
+export const findAll = async (userId?: string) => {
+  const params = userId ? { userId } : {};
+  const tasks = await TaskModel.find(params).populate('userId');
   return tasks.map((task) => formatTask(task));
 };
 

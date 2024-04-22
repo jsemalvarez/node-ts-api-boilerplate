@@ -7,13 +7,8 @@ export const create = async (userId: string, taskCreationData: TaskI.TaskCreatio
   return taskCreated;
 };
 
-export const findAll = async () => {
-  const tasks = await taskService.findAll();
-  return tasks;
-};
-
-export const findAllByUserId = async (userId: string) => {
-  const tasks = await taskService.findAllByUserId(userId);
+export const findAll = async (userId?: string) => {
+  const tasks = await taskService.findAll(userId);
   return tasks;
 };
 
