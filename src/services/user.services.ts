@@ -47,18 +47,6 @@ export const remove = async (userId: string) => {
   return userId;
 };
 
-export const login = (userCredentialsData: UserI.UserCredentialsData): UserI.UserCreatedData => {
-  const user: UserI.UserCreatedData = {
-    token: '',
-    id: '',
-    name: '',
-    email: userCredentialsData.email,
-    emailValidated: false,
-    role: [],
-  };
-  return user;
-};
-
 export const forgotPassword = () => {
   throw customError('Feature forgotPassword.businessProcess not implemented', 500);
 };
