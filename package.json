@@ -14,8 +14,8 @@
     "test:coverage": "jest --coverage",
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node dist/app.js",
-    "docker-dev":"docker-compose -f docker-compose.dev.yml -p task-containers-stage up -d",
-    "docker-prod":"docker-compose -p task-containers up -d"
+    "docker-dev": "docker-compose -f docker-compose.dev.yml -p task-containers-stage up -d",
+    "docker-prod": "docker-compose -p task-containers up -d"
   },
   "author": "jose maria alvarez",
   "license": "ISC",
@@ -40,6 +40,7 @@
     "express": "^4.19.2",
     "joi": "^17.12.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.1"
+    "mongoose": "^8.3.1",
+    "winston": "^3.13.0"
   }
 }
