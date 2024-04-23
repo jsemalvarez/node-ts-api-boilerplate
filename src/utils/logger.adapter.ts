@@ -2,15 +2,15 @@ import winston, { format } from 'winston';
 
 const { combine, timestamp, json, printf, colorize } = format;
 
-const messageFormat = printf(({ message, timestamp, level, ...meta }) => {
-  return `${timestamp} / ${level}=${message} origen=${meta.origen}`;
+const messageFormat = printf(({ message, timestamp, level, ...restData }) => {
+  return `${timestamp} / ${level}=${message} origen=${restData.origen}`;
 });
 
 const JSONFormat = format.combine(
   timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   json(),
-  printf(({ timestamp, level, message }) => {
-    return JSON.stringify({ timestamp, level, message });
+  printf(({ timestamp, level, message, ...restData }) => {
+    return JSON.stringify({ timestamp, level, message, origen: restData.origen });
   }),
 );
 
