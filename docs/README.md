@@ -49,6 +49,7 @@ copy `.env.template` and create `.env` file and modify the environment variables
 - Prettier to enforce consistent code style
 - NPM [scripts](#available-scripts) for common operations
 - Express
+- [Custom logger](#custom-logger)
 - Jest for fast unit testing and code coverage
 - Swagger for document the endpoints
 
@@ -63,6 +64,46 @@ copy `.env.template` and create `.env` file and modify the environment variables
 - `npm run start` - run app for production
 - `npm run docker:dev` - run docker container in development mode
 - `npm run docker:prod` - run docker container in production mode
+
+## Custom Logger
+
+```javascript
+
+const customLogger = (filename: string, level: string) => {
+  return winston.createLogger({
+    format: JSONFormat,
+    transports: [new winston.transports.File({ filename, level, format: JSONFormat })],
+  });
+};
+
+const infoLogger = customLogger('logs/info.log', 'info');
+const warnLogger = customLogger('logs/warn.log', 'warn');
+const errorLogger = customLogger('logs/error.log', 'error');
+
+// If we're not in production then we can see logs in the terminal
+if (process.env.NODE_ENV !== 'production') {
+  const consoleLogger = new winston.transports.Console({
+    format: combine(messageFormat, colorize({ all: true })),
+  });
+
+  infoLogger.add(consoleLogger);
+  warnLogger.add(consoleLogger);
+  errorLogger.add(consoleLogger);
+}
+
+export const loggerAdapter = {
+  info: (message: string, origen: string) => {
+    infoLogger.info({ message, origen });
+  },
+  warn: (message: string, origen: string) => {
+    warnLogger.warn({ message, origen });
+  },
+  error: (message: string, origen: string) => {
+    errorLogger.error({ message, origen });
+  },
+};
+
+```
 
 ## Project Structure
 
