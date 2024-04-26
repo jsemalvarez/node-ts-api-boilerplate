@@ -4,6 +4,7 @@ export interface User {
   email: string;
   emailValidated: boolean;
   password: string;
+  token: string;
   role: UserRole[];
 }
 
