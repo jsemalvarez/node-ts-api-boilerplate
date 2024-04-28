@@ -25,12 +25,7 @@ export const register = async (userCreationData: UserI.UserCreationData) => {
 
   await userService.update(userCreated.id, userCreated);
 
-  const user = {
-    ...userCreated,
-    token,
-  };
-
-  return user;
+  return userCreated;
 };
 
 export const findAll = async () => {
