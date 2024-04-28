@@ -99,10 +99,11 @@ export const login = async (userCredentialsData: UserI.UserCredentialsData) => {
     throw customError('Error while creating JWT', 500);
   }
 
-  return {
-    ...user,
-    token,
-  };
+  user.token = token;
+
+  await userService.update(user.id, user);
+
+  return user;
 };
 
 export const refreshToken = async (userId: string) => {
