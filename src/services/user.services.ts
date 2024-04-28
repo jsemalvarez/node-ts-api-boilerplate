@@ -12,6 +12,9 @@ export const register = async (userCreationData: UserI.UserCreationData) => {
     password,
   });
 
+  // when we create an user, we do it without token, becouse we need the id
+  userCreated.token = 'token not created yet';
+
   return formatUser(userCreated);
 };
 
@@ -70,4 +73,5 @@ export const formatUser = (user: UserDocument): UserI.User => ({
   emailValidated: user.emailValidated,
   password: user.password,
   role: user.role,
+  token: user.token,
 });
