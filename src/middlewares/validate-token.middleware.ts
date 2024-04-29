@@ -14,14 +14,19 @@ export const validateTokenMiddleware = async (req: Request, res: Response, next:
   if (!authorization) return res.status(401).json({ error: 'No token provided' });
   if (!authorization.startsWith('Bearer ')) return res.status(401).json({ error: 'Invalid Bearer token' });
 
-  const token = authorization.split(' ').at(1) || '';
+  const tokenFromRequest = authorization.split(' ').at(1) || '';
 
   try {
-    const payload = await tokenAdapter.validateToken<{ id: string }>(token);
+    const payload = await tokenAdapter.validateToken<{ id: string }>(tokenFromRequest);
     if (!payload) return res.status(401).json({ error: 'Invalid token' });
 
     const user = await userService.findOne(payload.id);
     if (!user) return res.status(401).json({ error: 'Invalid user' });
+
+    const isLastSavedToken = tokenFromRequest === user.token;
+    if (!isLastSavedToken) {
+      return res.status(401).json({ error: 'Expired token' });
+    }
 
     req.user = user as UserI.User;
 
