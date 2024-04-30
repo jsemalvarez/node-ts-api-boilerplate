@@ -132,6 +132,7 @@ List of available routes:
 `DELETE /v1/users/profile` - delete user\
 `POST /v1/users/register` - register\
 `POST /v1/users/login` - login\
+`POST /v1/users/logout` - logout\
 `POST /v1/users/refresh-tokens` - refresh auth tokens\
 `POST /v1/users/forgot-password` - send reset password email (pending)\
 `POST /v1/users/reset-password` - reset password (pending)\
