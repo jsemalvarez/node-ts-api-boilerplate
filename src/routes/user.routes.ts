@@ -21,6 +21,8 @@ router.patch(
 
 router.delete('/profile', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userController.remove);
 
+router.post('/logout', [validateTokenMiddleware, validateRoleMiddleware(UserRole.USER)], userController.logout);
+
 router.post('/refresh-token', [validateTokenMiddleware], userController.refreshToken);
 
 router.post('/forgot-password', userController.forgotPassword);

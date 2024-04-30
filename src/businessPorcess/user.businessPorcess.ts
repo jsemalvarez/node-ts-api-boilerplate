@@ -101,6 +101,13 @@ export const login = async (userCredentialsData: UserI.UserCredentialsData) => {
   return user;
 };
 
+export const logout = async (userId: string) => {
+  const user = await findOne(userId);
+  user.token = '';
+  await userService.update(userId, user);
+  return true;
+};
+
 export const refreshToken = async (userId: string) => {
   const token = await tokenAdapter.generateToken({ id: userId });
   return token;

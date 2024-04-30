@@ -77,6 +77,20 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     });
 };
 
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.params.userId;
+
+  userBusinessProcess
+    .logout(userId)
+    .then(() => {
+      res.json({ message: `user ${userId} logout successfully` });
+    })
+    // eslint-disable-next-line
+    .catch((error: any) => {
+      next(error);
+    });
+};
+
 export const login = (req: Request, res: Response, next: NextFunction) => {
   const userCredentials: UserI.UserCredentialsData = req.body;
 
