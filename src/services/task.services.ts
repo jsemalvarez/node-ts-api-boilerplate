@@ -1,6 +1,11 @@
 import { TaskDocument, TaskModel } from '../data/mongo';
 import { TaskI } from '../interfaces';
 
+interface OptionsFilter {
+  $or: { [key: string]: { $regex: RegExp } }[];
+  userId?: string;
+}
+
 export const create = async (userId: string, taskCreationData: TaskI.TaskCreationData) => {
   const { title, description } = taskCreationData;
   const taskCreated = TaskModel.create({
@@ -11,10 +16,20 @@ export const create = async (userId: string, taskCreationData: TaskI.TaskCreatio
   return taskCreated;
 };
 
-export const findAll = async (userId?: string) => {
-  const params = userId ? { userId } : {};
-  const tasks = await TaskModel.find(params).populate('userId');
-  return tasks.map((task) => formatTask(task));
+export const findAll = async (searchQuery: string, userId?: string) => {
+  const regex = new RegExp(searchQuery, 'i');
+
+  const optionsFilter: OptionsFilter = {
+    $or: [{ title: { $regex: regex } }, { description: { $regex: regex } }],
+  };
+
+  if (userId) {
+    optionsFilter.userId = userId;
+  }
+
+  const tasks = await TaskModel.find(optionsFilter).populate('userId');
+  const formattedTasks: TaskI.TaskUserDetails[] = tasks.map((task) => formatTask(task));
+  return formattedTasks;
 };
 
 export const findById = async (taskId: string) => {

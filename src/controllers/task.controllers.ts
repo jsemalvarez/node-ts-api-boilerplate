@@ -24,9 +24,10 @@ export const create = (req: Request, res: Response, next: NextFunction) => {
 
 export const findAll = (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;
+  const searchQuery = (req.query.tag as string) || '';
 
   taskBusinessProcess
-    .findAll(userId)
+    .findAll(searchQuery, userId)
     .then((tasks) => {
       res.json({ tasks });
     })
