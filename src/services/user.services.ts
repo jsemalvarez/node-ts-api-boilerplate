@@ -18,8 +18,10 @@ export const register = async (userCreationData: UserI.UserCreationData) => {
   return formatUser(userCreated);
 };
 
-export const findAll = async () => {
-  const users = await UserModel.find();
+export const findAll = async (page: number, limit: number) => {
+  const users = await UserModel.find()
+    .limit(limit)
+    .skip((page - 1) * limit);
   return users.map((user) => formatUser(user));
 };
 

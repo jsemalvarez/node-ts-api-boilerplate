@@ -28,8 +28,8 @@ export const register = async (userCreationData: UserI.UserCreationData) => {
   return userCreated;
 };
 
-export const findAll = async () => {
-  const users = await userService.findAll();
+export const findAll = async (page: number, limit: number) => {
+  const users = await userService.findAll(page, limit);
   return users;
 };
 

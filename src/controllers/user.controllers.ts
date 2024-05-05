@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { userBusinessProcess } from '../businessPorcess';
 import { UserI } from '../interfaces';
+import { getPaginationOptions } from '../utils/pagination';
 
 declare module 'express' {
   interface Request {
@@ -22,9 +23,10 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     });
 };
 
-export const findAll = (_req: Request, res: Response, next: NextFunction) => {
+export const findAll = (req: Request, res: Response, next: NextFunction) => {
+  const { page, limit } = getPaginationOptions(req);
   userBusinessProcess
-    .findAll()
+    .findAll(page, limit)
     .then((users) => {
       res.json({ users });
     })
