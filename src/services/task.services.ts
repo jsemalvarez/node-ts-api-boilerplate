@@ -16,7 +16,7 @@ export const create = async (userId: string, taskCreationData: TaskI.TaskCreatio
   return taskCreated;
 };
 
-export const findAll = async (searchQuery: string, userId?: string) => {
+export const findAll = async (searchQuery: string, page: number, limit: number, userId?: string) => {
   const regex = new RegExp(searchQuery, 'i');
 
   const optionsFilter: OptionsFilter = {
@@ -27,7 +27,10 @@ export const findAll = async (searchQuery: string, userId?: string) => {
     optionsFilter.userId = userId;
   }
 
-  const tasks = await TaskModel.find(optionsFilter).populate('userId');
+  const tasks = await TaskModel.find(optionsFilter)
+    .limit(limit)
+    .skip((page - 1) * limit)
+    .populate('userId');
   const formattedTasks: TaskI.TaskUserDetails[] = tasks.map((task) => formatTask(task));
   return formattedTasks;
 };

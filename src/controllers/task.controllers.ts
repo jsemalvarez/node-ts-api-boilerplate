@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { taskBusinessProcess } from '../businessPorcess';
 import { TaskI, UserI } from '../interfaces';
+import { getPaginationOptionsTasks } from '../utils/pagination';
 
 declare module 'express' {
   interface Request {
@@ -24,10 +25,10 @@ export const create = (req: Request, res: Response, next: NextFunction) => {
 
 export const findAll = (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;
-  const searchQuery = (req.query.tag as string) || '';
+  const { page, limit, searchQuery } = getPaginationOptionsTasks(req);
 
   taskBusinessProcess
-    .findAll(searchQuery, userId)
+    .findAll(searchQuery, page, limit, userId)
     .then((tasks) => {
       res.json({ tasks });
     })
