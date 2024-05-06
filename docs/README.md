@@ -144,14 +144,14 @@ List of available routes:
 `GET /v1/admin/users/:userId` - get user\
 `PATCH /v1/admin/users/:userId` - update user\
 `DELETE /v1/admin/users/:userId` - delete user\
-`GET /v1/admin/task?term=term` - get all task\
+`GET /v1/admin/task?term=term&page=1&limit=10` - get all task\
 `GET /v1/admin/task/:taskId` - get task\
 `PATCH /v1/admin/task/:taskId` - update task\
 `DELETE /v1/admin/task/:taskId` - delete task
 
 **Tasks routes**:\
 `POST /v1/task` - create a task\
-`GET /v1/task?term=term` - get all task by user\
+`GET /v1/task?term=term&page=1&limit=10` - get all task by user\
 `GET /v1/task/:taskId` - get task by user\
 `PATCH /v1/task/:taskId` - update task by user\
 `DELETE /v1/task/:taskId` - delete task by user
