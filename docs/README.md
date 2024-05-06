@@ -2,7 +2,18 @@
 
 A boilerplate for kickstart your nodejs api project
 
-For each branch, you can find a base project with node and ts such as:
+## Basic tools included and configured:
+
+- TypeScript
+- ESLint with some initial rules recommendation
+- Prettier to enforce consistent code style
+- NPM [scripts](#available-scripts) for common operations
+- Express
+- [Custom logger](#custom-logger)
+- Jest for fast unit testing and code coverage
+- Swagger for document the endpoints
+
+## For each branch, you can find a base project with node and ts such as:
 
 - node | mongoose | mongo << in progres >>
 
@@ -24,7 +35,7 @@ git checkout node-prisma-postgres
 
 ## Manual Installation
 
-Clone the repo:
+1 - Clone the repo:
 
 ```bash
 git clone https://github.com/jsemalvarez/node-ts-api-boilerplate.git
@@ -32,26 +43,21 @@ cd node-ts-api-boilerplate
 npx rimraf ./.git
 ```
 
-Install the dependencies:
+2 - Install the dependencies:
 
 ```bash
 npm install
 ```
 
-### Set the environment variables:
+3 - Set the environment variables:
 
 copy `.env.template` and create `.env` file and modify the environment variables (if needed). The environment variables can be found and modified in the `.env.template` file. They come with these default values
 
-## Basic tools included and configured:
+4 - Run MongoDB and MongoDB admin interface with docker
 
-- TypeScript
-- ESLint with some initial rules recommendation
-- Prettier to enforce consistent code style
-- NPM [scripts](#available-scripts) for common operations
-- Express
-- [Custom logger](#custom-logger)
-- Jest for fast unit testing and code coverage
-- Swagger for document the endpoints
+```
+npm run docker:dev
+```
 
 ## Available Scripts
 
@@ -155,3 +161,7 @@ List of available routes:
 `GET /v1/task/:taskId` - get task by user\
 `PATCH /v1/task/:taskId` - update task by user\
 `DELETE /v1/task/:taskId` - delete task by user
+
+## POSTMAN COLLECTION
+
+You can get the postman collection in `docs` folder
