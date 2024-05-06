@@ -140,7 +140,7 @@ List of available routes:
 `POST /v1/users/verify-email` - verify email (pending)
 
 **Admin routes**:\
-`GET /v1/admin/users` - get all users\
+`GET /v1/admin/users?page=1&limit=10` - get all users\
 `GET /v1/admin/users/:userId` - get user\
 `PATCH /v1/admin/users/:userId` - update user\
 `DELETE /v1/admin/users/:userId` - delete user\
