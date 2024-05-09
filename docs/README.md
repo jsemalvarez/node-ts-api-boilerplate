@@ -2,6 +2,17 @@
 
 A boilerplate for kickstart your nodejs api project
 
+## Context
+
+- [Basic tools](#basic-tools-included-and-configured)
+- [Each branch](#for-each-branch-you-can-find-a-base-project-with-node-and-ts-such-as)
+- [Manual Installation](#manual-installation)
+- [Available Scripts](#available-scripts)
+- [Custom Logger](#custom-logger)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [POSTMAN COLLECTION](#postman-collection)
+
 ## Basic tools included and configured:
 
 - TypeScript
